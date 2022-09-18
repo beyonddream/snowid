@@ -1,5 +1,5 @@
-#ifndef SNOWID_H
-#define SNOWID_H
+#ifndef __SNOWID_H__
+#define __SNOWID_H__
 
 typedef struct snow_config {
     char *interface; /* network interface name */
@@ -25,4 +25,4 @@ void init(snow_config *config);
 void shutdown(void);
 
 
-#endif /* SNOWID_H */
+#endif /* __SNOWID_H__ */
