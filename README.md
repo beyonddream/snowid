@@ -1,5 +1,5 @@
 # snowid
-A Decentralized, K-Ordered Unique ID Generator in C
+A Decentralized, K-Ordered Unique ID Generator library in C
 
 
 ## Design
