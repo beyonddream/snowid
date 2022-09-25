@@ -16,13 +16,13 @@ typedef struct snow_state {
     struct timeval *checkpoint;
     uint64_t worker_id;
     uint16_t sequence_id;
-} snow_state;
+} snow_state_t;
 
 /**
  * Global variable to store the state.
  * Client should use some form of mutex if multiple threads are going to access the API's.
  */
-static snow_state state;
+static snow_state_t state;
 
 static void worker_id_init(void);
 static bool get_current_ts(uint64_t *);
@@ -38,11 +38,11 @@ static bool get_current_ts(uint64_t *result)
     }
 
     *result = (uint64_t)t;
-    
+
     return true;
 }
 
-bool snow_get_id(snow_id *dest)
+bool snow_get_id(snow_id_t *dest)
 {
     
     if (state.enabled == true) {
@@ -61,7 +61,7 @@ bool snow_get_id(snow_id *dest)
 
         state.checkpoint = timestamp;
 
-        snow_id current = {
+        snow_id_t current = {
             .timestamp = state.checkpoint,
             .worker_id = state.worker_id,
             .sequence_id = state.sequence_id
@@ -81,7 +81,7 @@ void snow_state_dump(void)
     return;
 }
 
-void snow_init(snow_config *config)
+void snow_init(snow_config_t *config)
 {
 
     if (config == NULL) {
