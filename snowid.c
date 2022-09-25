@@ -69,8 +69,10 @@ bool snow_get_id(snow_id **dest)
             state.sequence_id = 0;
         }
 
+        state.checkpoint = *timestamp;
+
         snow_id current = {
-            .timestamp = *timestamp,
+            .timestamp = state.checkpoint,
             .worker_id = state.worker_id,
             .sequence_id = state.sequence_id
         };
