@@ -13,7 +13,7 @@ typedef struct snow_state {
      * clock has moved backward and we refuse to generate
      * the id.
      */
-    struct timeval *checkpoint;
+    uint64_t checkpoint;
     uint64_t worker_id;
     uint16_t sequence_id;
 } snow_state_t;
