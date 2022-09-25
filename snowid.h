@@ -21,7 +21,12 @@ typedef struct snow_id {
  * @arg id - If able to generate an id, set the value of id to `snow_id`ref. Else, NULL.
  * @return true if successfully able to generate an id, false if not.
  */
-bool get_id(snow_id **id);
+bool snow_get_id(snow_id **id);
+
+/**
+ * Dump snow state to stdout for debugging.
+ */ 
+void snow_state_dump(void);
 
 /**
  * Initializes the snowid engine with the config.
@@ -29,7 +34,7 @@ bool get_id(snow_id **id);
  * @arg config - The snowid configuration
  * @return void
  */
-void init(snow_config *config);
+void snow_init(snow_config *config);
 
 /**
  * Deinitializes the snowid engine
@@ -37,7 +42,7 @@ void init(snow_config *config);
  * @arg void
  * @return void
  */
-void shutdown(void);
+void snow_shutdown(void);
 
 
 #endif /* __SNOWID_H__ */

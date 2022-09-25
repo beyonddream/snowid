@@ -46,7 +46,7 @@ static bool get_current_ts(uint64_t **result)
     return true;
 }
 
-bool get_id(snow_id **dest)
+bool snow_get_id(snow_id **dest)
 {
     
     if (dest == NULL) {
@@ -84,7 +84,13 @@ bool get_id(snow_id **dest)
     return false;
 }
 
-void init(snow_config *config)
+void snow_state_dump(void)
+{
+
+    return;
+}
+
+void snow_init(snow_config *config)
 {
 
     if (config == NULL) {
@@ -94,12 +100,9 @@ void init(snow_config *config)
     }
 
     state.enabled = true;
-    
-
-
 }
 
-void shutdown()
+void snow_shutdown()
 {
 
 }
