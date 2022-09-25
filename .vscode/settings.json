@@ -1,5 +1,17 @@
 {
     "files.associations": {
-        "snowid.h": "c"
+        "snowid.h": "c",
+        "cstdlib": "c",
+        "exception": "c",
+        "ios": "c",
+        "optional": "c",
+        "stdexcept": "c",
+        "string": "c",
+        "typeinfo": "c",
+        "variant": "c",
+        "vector": "c",
+        "functional": "c",
+        "memory": "c",
+        "stdio.h": "c"
     }
 }
