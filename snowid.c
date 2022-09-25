@@ -25,51 +25,41 @@ typedef struct snow_state {
 static snow_state state;
 
 static void worker_id_init(void);
-static bool get_current_ts(uint64_t **);
+static bool get_current_ts(uint64_t *);
 
-static bool get_current_ts(uint64_t **result)
+static bool get_current_ts(uint64_t *result)
 {
     time_t t;
 
-    if (result == NULL) {
-        return false;
-    }
-
-    t = time(*result);
+    t = time(NULL);
 
     if (t == (time_t)-1) {
-        *result = NULL;
         return false;
     }
 
+    *result = (uint64_t)t;
+    
     return true;
 }
 
-bool snow_get_id(snow_id **dest)
+bool snow_get_id(snow_id *dest)
 {
     
-    if (dest == NULL) {
-        return false;
-    }
-
-    *dest = NULL;
-
     if (state.enabled == true) {
         
-        uint64_t *timestamp = NULL;
-        bool res = get_current_ts(&timestamp);
-
-        if (res == false) {
+        uint64_t timestamp;
+        
+        if (get_current_ts(&timestamp) == false) {
             return false;
         }
 
-        if (*timestamp == state.checkpoint) {
+        if (state.checkpoint == timestamp) {
             state.sequence_id++;
         } else {
             state.sequence_id = 0;
         }
 
-        state.checkpoint = *timestamp;
+        state.checkpoint = timestamp;
 
         snow_id current = {
             .timestamp = state.checkpoint,
@@ -77,7 +67,7 @@ bool snow_get_id(snow_id **dest)
             .sequence_id = state.sequence_id
         };
 
-        *dest = &current;
+        *dest = current;
 
         return true;
     }

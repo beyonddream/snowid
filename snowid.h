@@ -18,10 +18,10 @@ typedef struct snow_id {
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
- * @arg id - If able to generate an id, set the value of id to `snow_id`ref. Else, NULL.
+ * @arg id - If able to generate an id, set the value of id to `snow_id`.
  * @return true if successfully able to generate an id, false if not.
  */
-bool snow_get_id(snow_id **id);
+bool snow_get_id(snow_id *id);
 
 /**
  * Dump snow state to stdout for debugging.
