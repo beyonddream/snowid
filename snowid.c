@@ -55,7 +55,7 @@ bool snow_get_id(snow_id_t *dest)
 
         if (state.checkpoint > current_time) {
             state.enabled = false;
-            printf(stderr, "Clock is running backwards.");
+            fprintf(stderr, "Clock is running backwards.");
             return false;
         }
         
