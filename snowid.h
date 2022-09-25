@@ -1,28 +1,33 @@
 #ifndef __SNOWID_H__
 #define __SNOWID_H__
 
-struct snow_id;
-
 typedef struct snow_config {
     char *interface; /* network interface name */
     char *timestamp_path; /* file location to save current time periodically */
     unsigned long allowable_downtime; /* time since snowid is called last */
 } snow_config;
 
+typedef struct snow_id {
+    uint64_t timestamp: 64;
+    uint64_t worker_id: 48;
+    uint16_t sequence_id: 16;
+} snow_id;
+
 /**
  * Generates unique 128-bit id from current timestamp,worker_id,sequence_id.
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
- * @return snow_id - 128 bit unique id.
+ * @arg id - snow_id - 128 bit unique id.
+ * @return true for success, false for failure.
  */
-struct snow_id get_id(void);
+bool get_id(snow_id *id);
 
 /**
  * Initializes the snowid engine with the config.
  * 
- * @arg config The snowid configuration
- * @return void on success, exit() on failure.
+ * @arg config - The snowid configuration
+ * @return void
  */
 void init(snow_config *config);
 
