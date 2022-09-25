@@ -19,30 +19,69 @@ typedef struct snow_state {
     uint16_t sequence_id;
 } snow_state;
 
-static void worker_id_init(void);
-
 /**
  * Global variable to store the state.
  * Client should use some form of mutex if multiple threads are going to access the API's.
  */
 static snow_state state;
 
-bool get_id(snow_id *dest)
+static void worker_id_init(void);
+static bool get_current_ts(uint64_t **);
+
+static bool get_current_ts(uint64_t **result)
 {
-    bool success;
+    time_t t;
 
-    snow_id current = {
-        .timestamp = 0,
-        .worker_id = 0,
-        .sequence_id = 0
-    };
-
-    if (state.enabled == true) {
-        *dest = current;
-        success = true;
+    if (result == NULL) {
+        return false;
     }
 
-    return success;
+    t = time(*result);
+
+    if (t == (time_t)-1) {
+        *result = NULL;
+        return false;
+    }
+
+    return true;
+}
+
+bool get_id(snow_id **dest)
+{
+    
+    if (dest == NULL) {
+        return false;
+    }
+
+    *dest = NULL;
+
+    if (state.enabled == true) {
+        
+        uint64_t *timestamp = NULL;
+        bool res = get_current_ts(&timestamp);
+
+        if (res == false) {
+            return false;
+        }
+
+        if (*timestamp == state.checkpoint) {
+            state.sequence_id++;
+        } else {
+            state.sequence_id = 0;
+        }
+
+        snow_id current = {
+            .timestamp = *timestamp,
+            .worker_id = state.worker_id,
+            .sequence_id = state.sequence_id
+        };
+
+        *dest = &current;
+
+        return true;
+    }
+
+    return false;
 }
 
 void init(snow_config *config)

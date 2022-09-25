@@ -18,10 +18,10 @@ typedef struct snow_id {
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
- * @arg id - snow_id - 128 bit unique id.
- * @return true for success, false for failure.
+ * @arg id - If able to generate an id, set the value of id to `snow_id`ref. Else, NULL.
+ * @return true if successfully able to generate an id, false if not.
  */
-bool get_id(snow_id *id);
+bool get_id(snow_id **id);
 
 /**
  * Initializes the snowid engine with the config.
