@@ -47,19 +47,25 @@ bool snow_get_id(snow_id_t *dest)
     
     if (state.enabled == true) {
         
-        uint64_t timestamp;
+        uint64_t current_time;
         
-        if (get_current_ts(&timestamp) == false) {
+        if (get_current_ts(&current_time) == false) {
             return false;
         }
 
-        if (state.checkpoint == timestamp) {
+        if (state.checkpoint > current_time) {
+            state.enabled = false;
+            printf(stderr, "Clock is running backwards.");
+            return false;
+        }
+        
+        if (state.checkpoint == current_time) {
             state.sequence_id++;
         } else {
             state.sequence_id = 0;
         }
 
-        state.checkpoint = timestamp;
+        state.checkpoint = current_time;
 
         snow_id_t current = {
             .timestamp = state.checkpoint,
