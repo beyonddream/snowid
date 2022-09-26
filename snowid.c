@@ -45,40 +45,39 @@ static bool get_current_ts(uint64_t *result)
 bool snow_get_id(snow_id_t *dest)
 {
     
-    if (state.enabled == true) {
+    if (state.enabled == false) {
+        return false;
+    }
         
-        uint64_t current_time;
-        
-        if (get_current_ts(&current_time) == false) {
-            return false;
-        }
-
-        if (state.checkpoint > current_time) {
-            state.enabled = false;
-            fprintf(stderr, "Clock is running backwards.");
-            return false;
-        }
-        
-        if (state.checkpoint == current_time) {
-            state.sequence_id++;
-        } else {
-            state.sequence_id = 0;
-        }
-
-        state.checkpoint = current_time;
-
-        snow_id_t current = {
-            .timestamp = state.checkpoint,
-            .worker_id = state.worker_id,
-            .sequence_id = state.sequence_id
-        };
-
-        *dest = current;
-
-        return true;
+    uint64_t current_time;
+    
+    if (get_current_ts(&current_time) == false) {
+        return false;
     }
 
-    return false;
+    if (state.checkpoint > current_time) {
+        fprintf(stderr, "Clock is running backwards.");
+        state.enabled = false;
+        return false;
+    }
+    
+    if (state.checkpoint == current_time) {
+        state.sequence_id++;
+    } else {
+        state.sequence_id = 0;
+    }
+
+    state.checkpoint = current_time;
+
+    snow_id_t current = {
+        .timestamp = state.checkpoint,
+        .worker_id = state.worker_id,
+        .sequence_id = state.sequence_id
+    };
+
+    *dest = current;
+
+    return true;
 }
 
 void snow_state_dump(void)
