@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h> 
 
 #include "snowid.h"
 
@@ -22,7 +23,7 @@ typedef struct snow_state {
  * Global variable to store the state.
  * Client should use some form of mutex if multiple threads are going to access the API's.
  */
-static snow_state_t state;
+static snow_state_t *state;
 
 static void worker_id_init(void);
 static bool get_current_ts(uint64_t *);
@@ -45,7 +46,7 @@ static bool get_current_ts(uint64_t *result)
 bool snow_get_id(snow_id_t *dest)
 {
     
-    if (state.enabled == false) {
+    if (state == NULL || state->enabled == false) {
         return false;
     }
         
@@ -55,24 +56,24 @@ bool snow_get_id(snow_id_t *dest)
         return false;
     }
 
-    if (state.checkpoint > current_time) {
+    if (state->checkpoint > current_time) {
         fprintf(stderr, "Clock is running backwards.");
-        state.enabled = false;
+        state->enabled = false;
         return false;
     }
     
-    if (state.checkpoint == current_time) {
-        state.sequence_id++;
+    if (state->checkpoint == current_time) {
+        state->sequence_id++;
     } else {
-        state.sequence_id = 0;
+        state->sequence_id = 0;
     }
 
-    state.checkpoint = current_time;
+    state->checkpoint = current_time;
 
     snow_id_t current = {
-        .timestamp = state.checkpoint,
-        .worker_id = state.worker_id,
-        .sequence_id = state.sequence_id
+        .timestamp = state->checkpoint,
+        .worker_id = state->worker_id,
+        .sequence_id = state->sequence_id
     };
 
     *dest = current;
@@ -89,16 +90,36 @@ void snow_state_dump(void)
 void snow_init(snow_config_t *config)
 {
 
-    if (config == NULL) {
-        fprintf(stderr, "snow config is NULL.");
-        state.enabled = false;
+    state = malloc(sizeof(snow_state_t));
+
+    if (state == NULL) {
+        fprintf(stderr, "malloc of snow_state_t failed.");
         return;
     }
 
-    state.enabled = true;
+    if (config == NULL) {
+        fprintf(stderr, "snow config is NULL.");
+        state->enabled = false;
+        return;
+    }
+
+    /* TODO XXX: take into consideration config->allowable_downtime */
+    /* set the current timestamp */
+    if (get_current_ts(&state->checkpoint) == false) {
+        return;
+    }
+
+    /* TODO XXX: get the worker_id from the config->interface */
+    state->worker_id = 42;
+    state->sequence_id = 0;
+
+    /* init has succeeded */
+    state->enabled = true;
+
+    return;
 }
 
 void snow_shutdown()
 {
-
+    free(state);
 }

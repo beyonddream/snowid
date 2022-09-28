@@ -12,6 +12,9 @@
         "vector": "c",
         "functional": "c",
         "memory": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "locale": "c",
+        "ostream": "c",
+        "new": "c"
     }
 }
