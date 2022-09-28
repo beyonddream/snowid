@@ -24,9 +24,9 @@ typedef struct snow_id {
 bool snow_get_id(snow_id_t *id);
 
 /**
- * Dump snow state to stdout for debugging.
+ * Dump snow state and config to stdout for debugging.
  */ 
-void snow_state_dump(void);
+void snow_dump(void);
 
 /**
  * Initializes the snowid engine with the config.
