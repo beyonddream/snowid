@@ -20,4 +20,4 @@ infrastructure and it will generate conflict-free id's on-demand without coordin
 ## Credits
 
 The idea/design is borrowed from BMC's (formerly Boundary) flake server written in Erlang.
-More details are in the original [post] (http://archive.is/2015.07.08-082503/http://www.boundary.com/blog/2012/01/flake-a-decentralized-k-ordered-unique-id-generator-in-erlang/).
+More details are in the original [post](http://archive.is/2015.07.08-082503/http://www.boundary.com/blog/2012/01/flake-a-decentralized-k-ordered-unique-id-generator-in-erlang/).
