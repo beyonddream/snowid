@@ -51,6 +51,15 @@ static snow_state_t *state;
 
 static bool get_current_ts(uint64_t *);
 static uint64_t get_checkpoint_mutable(char *);
+static uint64_t get_worker_id_from_nw_if(char *);
+
+static uint64_t get_worker_id_from_nw_if(char *interface)
+{
+
+    (void)interface;
+
+    return 0;
+}
 
 static uint64_t get_checkpoint_mutable(char *timestamp_path)
 {
@@ -176,8 +185,7 @@ void snow_init(snow_config_t *config)
     }
 
     state->checkpoint = checkpoint;
-    /* TODO XXX: get the worker_id from the config->interface */
-    state->worker_id = 42;
+    state->worker_id = get_worker_id_from_nw_if(config->interface);
     state->sequence_id = 0;
 
     /* init has succeeded */
