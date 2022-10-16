@@ -104,8 +104,28 @@ bool snow_get_id(snow_id_t *dest)
     return true;
 }
 
-void snow_dump(void)
+void snow_dump(FILE *stream)
 {
+
+    if (state == NULL) {
+        return;
+    }
+
+    if (stream == NULL) {
+        stream = stdout;
+    }
+
+#define FPRINTF(KEY, VALUE) \
+        do {    \
+            fprintf(stream, (KEY), (VALUE)); \
+        } while(0);
+    FPRINTF("%s", "\n{")
+    FPRINTF("\"enabled\":%d,", state->enabled)
+    FPRINTF("\"worker_id\":%llu,", state->worker_id)
+    FPRINTF("\"checkpoint\":%llu,", state->checkpoint)
+    FPRINTF("\"sequence_id\":%hu", state->sequence_id)
+    FPRINTF("%s", "}\n")
+#undef FPRINTF
 
     return;
 }

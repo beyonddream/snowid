@@ -25,6 +25,7 @@
 #ifndef __SNOWID_H__
 #define __SNOWID_H__
 
+#include <stdio.h>
 #include <stdbool.h>
 
 typedef struct snow_config {
@@ -51,8 +52,9 @@ bool snow_get_id(snow_id_t *id);
 
 /**
  * Dump snow state and config to stdout for debugging.
+ * @arg stream - any file descriptor (stdout if NULL)
  */ 
-void snow_dump(void);
+void snow_dump(FILE *stream);
 
 /**
  * Initializes the snowid engine with the config.
