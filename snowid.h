@@ -25,6 +25,8 @@
 #ifndef __SNOWID_H__
 #define __SNOWID_H__
 
+#include <stdbool.h>
+
 typedef struct snow_config {
     char *interface; /* network interface name */
     char *timestamp_path; /* file location to save current time periodically */

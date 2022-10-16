@@ -49,7 +49,6 @@ typedef struct snow_state {
  */
 static snow_state_t *state;
 
-static void worker_id_init(void);
 static bool get_current_ts(uint64_t *);
 
 static bool get_current_ts(uint64_t *result)
