@@ -50,6 +50,15 @@ typedef struct snow_state {
 static snow_state_t *state;
 
 static bool get_current_ts(uint64_t *);
+static uint64_t get_checkpoint_mutable(char *);
+
+static uint64_t get_checkpoint_mutable(char *timestamp_path)
+{
+    
+    (void)timestamp_path;
+
+    return 0;
+}
 
 static bool get_current_ts(uint64_t *result)
 {
@@ -140,18 +149,33 @@ void snow_init(snow_config_t *config)
         return;
     }
 
+    state->enabled = false;
+
     if (config == NULL) {
         fprintf(stderr, "snow config is NULL.");
-        state->enabled = false;
         return;
     }
 
-    /* TODO XXX: take into consideration config->allowable_downtime */
-    /* set the current timestamp */
-    if (get_current_ts(&state->checkpoint) == false) {
+    /* get the current timestamp */
+    uint64_t current_time;
+    if (get_current_ts(&current_time) == false) {
         return;
     }
 
+    uint64_t checkpoint = get_checkpoint_mutable(config->timestamp_path);
+    uint64_t allowable_downtime = config->allowable_downtime;
+
+    if (checkpoint > current_time) {
+        fprintf(stderr, "Clock is running backwards, failing to generate id.");
+        return;
+    }
+
+    if ((current_time - checkpoint) > allowable_downtime) {
+        fprintf(stderr, "Clock is too far advanced, failing to generate id.");
+        return;
+    }
+
+    state->checkpoint = checkpoint;
     /* TODO XXX: get the worker_id from the config->interface */
     state->worker_id = 42;
     state->sequence_id = 0;
