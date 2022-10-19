@@ -76,12 +76,16 @@ static uint64_t get_checkpoint_mutable(char *timestamp_path)
     if (file == NULL) {
         /* create a new file at timestamp_path */
         file = fopen(timestamp_path, "w");
-        if (get_current_ts(&checkpoint) == false) {
-            fprintf(stderr, "Couldn't read current timestamp.");
-        }
-        int ret = fwrite(&checkpoint, sizeof(checkpoint), 1, file);
-        if (ret != 1) {
-            fprintf(stderr, "Couldn't write to timestamp_path.");
+        if (file != NULL) {
+            if (get_current_ts(&checkpoint) == false) {
+                fprintf(stderr, "Couldn't read current timestamp.");
+            }
+            int ret = fwrite(&checkpoint, sizeof(checkpoint), 1, file);
+            if (ret != 1) {
+                fprintf(stderr, "Couldn't write to timestamp_path.");
+            }
+        } else {
+            fprintf(stderr, "Couldn't open timestamp_path for write.");
         }
     } else {
         int ret = fread(&checkpoint, sizeof(checkpoint), 1, file);
