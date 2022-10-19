@@ -86,16 +86,16 @@ static uint64_t get_checkpoint_mutable(char *timestamp_path)
             if (ret != 1) {
                 fprintf(stderr, "Couldn't write to timestamp_path.");
             }
+            fclose(file);
         }
     } else {
         int ret = fread(&checkpoint, sizeof(checkpoint), 1, file);
         if (ret != 1) {
             fprintf(stderr, "Couldn't read from timestamp_path.");
         }
+        fclose(file);
     }
     
-    fclose(file);
-
     return checkpoint;
 }
 
