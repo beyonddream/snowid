@@ -31,7 +31,7 @@
 typedef struct snow_config {
     char *interface; /* network interface name */
     char *timestamp_path; /* file location to save current time periodically */
-    uint64_t allowable_downtime; /* time since snowid is called last */
+    uint64_t allowable_downtime; /* time since snowid is called last - default 0 */
 } snow_config_t;
 
 typedef struct snow_id {

@@ -49,6 +49,8 @@ typedef struct snow_state {
  */
 static snow_state_t *state;
 
+#define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
+
 static bool get_current_ts(uint64_t *);
 static uint64_t get_checkpoint_mutable(char *);
 static uint64_t get_worker_id_from_nw_if(char *);
@@ -64,9 +66,33 @@ static uint64_t get_worker_id_from_nw_if(char *interface)
 static uint64_t get_checkpoint_mutable(char *timestamp_path)
 {
     
-    (void)timestamp_path;
+    if (timestamp_path == NULL) {
+        timestamp_path = DEFAULT_CHECKPOINT_FILE_PATH;
+    }
 
-    return 0;
+    FILE *file = fopen(timestamp_path, "r");
+    uint64_t checkpoint = 0;
+
+    if (file == NULL) {
+        /* create a new file at timestamp_path */
+        file = fopen(timestamp_path, "w");
+        if (get_current_ts(&checkpoint) == false) {
+            fprintf(stderr, "Couldn't read current timestamp.");
+        }
+        int ret = fwrite(&checkpoint, sizeof(checkpoint), 1, file);
+        if (ret != 1) {
+            fprintf(stderr, "Couldn't write to timestamp_path.");
+        }
+    } else {
+        int ret = fread(&checkpoint, sizeof(checkpoint), 1, file);
+        if (ret != 1) {
+            fprintf(stderr, "Couldn't read from timestamp_path.");
+        }
+    }
+    
+    fclose(file);
+
+    return checkpoint;
 }
 
 static bool get_current_ts(uint64_t *result)
