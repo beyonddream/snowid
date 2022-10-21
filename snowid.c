@@ -51,6 +51,8 @@ static snow_state_t *state;
 
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
 #define DEFAULT_INTERFACE "eth0"
+/* maximum size of interface name */
+#define INET_IF_NAME_SIZE 16
 
 static bool get_current_ts(uint64_t *out);
 static bool get_checkpoint_mutable(uint64_t *out, char *);
@@ -255,7 +257,10 @@ void snow_init(snow_config_t *config)
     return;
 }
 
-void snow_shutdown()
+void snow_shutdown(void)
 {
+    
     free(state);
+
+    return;
 }
