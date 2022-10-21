@@ -50,7 +50,7 @@ typedef struct snow_state {
 static snow_state_t *state;
 
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
-#define DEFAULT_INTERFACE "eth0"
+#define DEFAULT_INTERFACE "en0"
 /* maximum size of interface name */
 #define INET_IF_NAME_SIZE 16
 
