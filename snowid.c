@@ -223,12 +223,13 @@ void snow_init(snow_config_t *config)
         return;
     }
 
-    /* get the current timestamp */
-    if (get_current_ts(&current_time) == false) {
+    /* if timestamp_path is new, then checkpoint can be current timestamp */
+    if (get_checkpoint_mutable(&checkpoint, config->timestamp_path) == false) {
         return;
     }
 
-    if (get_checkpoint_mutable(&checkpoint, config->timestamp_path) == false) {
+    /* get the current timestamp again now */
+    if (get_current_ts(&current_time) == false) {
         return;
     }
     
@@ -259,7 +260,7 @@ void snow_init(snow_config_t *config)
 
 void snow_shutdown(void)
 {
-    
+
     free(state);
 
     return;
