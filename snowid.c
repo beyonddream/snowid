@@ -68,7 +68,7 @@ static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
     }
     
 
-    return 0;
+    return true;
 }
 
 static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
