@@ -136,6 +136,10 @@ bool snow_get_id(snow_id_t *dest)
 {
     uint64_t current_time;
 
+    if (dest == NULL) {
+        return false;
+    }
+
     if (state == NULL || state->enabled == false) {
         return false;
     }
