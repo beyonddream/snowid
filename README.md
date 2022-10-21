@@ -2,7 +2,7 @@
 
 A Decentralized, K-Ordered Unique ID Generator library in C.
 
-It generates 12b-bit k-ordered id's (time-ordered lexically). It can be run on each node in your
+It generates 128-bit k-ordered id's (time-ordered lexically). It can be run on each node in your
 infrastructure and it will generate conflict-free id's on-demand without coordination.
 
 ## Design
