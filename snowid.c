@@ -186,8 +186,8 @@ void snow_dump(FILE *stream)
         stream = stdout;
     }
 
-#define FPRINTF(KEY, VALUE) \
-        do {    \
+#define FPRINTF(KEY, VALUE)                  \
+        do {                                 \
             fprintf(stream, (KEY), (VALUE)); \
         } while(0);
     FPRINTF("%s", "\n{")
