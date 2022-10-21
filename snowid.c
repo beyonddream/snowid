@@ -52,12 +52,14 @@ static snow_state_t *state;
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
 #define DEFAULT_INTERFACE "eth0"
 
-static bool get_current_ts(uint64_t *);
-static bool get_checkpoint_mutable(uint64_t *, char *);
-static uint64_t get_worker_id_from_nw_if(char *);
+static bool get_current_ts(uint64_t *out);
+static bool get_checkpoint_mutable(uint64_t *out, char *);
+static bool get_worker_id_from_nw_if(uint64_t *out, char *);
 
-static uint64_t get_worker_id_from_nw_if(char *interface)
+static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
 {
+
+    (void)workerid;
 
     if (interface == NULL) {
         interface = DEFAULT_INTERFACE;
@@ -67,14 +69,14 @@ static uint64_t get_worker_id_from_nw_if(char *interface)
     return 0;
 }
 
-static bool get_checkpoint_mutable(uint64_t *checkpoint_result, char *timestamp_path)
+static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
 {
     
-    if (checkpoint_result == NULL) {
+    if (checkpoint == NULL) {
         return false;
     }
 
-    *checkpoint_result = 0;
+    *checkpoint = 0;
 
     if (timestamp_path == NULL) {
         timestamp_path = DEFAULT_CHECKPOINT_FILE_PATH;
@@ -89,11 +91,11 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint_result, char *timestamp_
             fprintf(stderr, "Couldn't open timestamp_path for write.");
             return false;
         } else {
-            if (get_current_ts(checkpoint_result) == false) {
+            if (get_current_ts(checkpoint) == false) {
                 fprintf(stderr, "Couldn't read current timestamp.");
                 return false;
             }
-            int ret = fwrite(checkpoint_result, sizeof(uint64_t), 1, file);
+            int ret = fwrite(checkpoint, sizeof(uint64_t), 1, file);
             if (ret != 1) {
                 fprintf(stderr, "Couldn't write to timestamp_path.");
                 return false;
@@ -102,7 +104,7 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint_result, char *timestamp_
         }
     } else {
         /* read from the existing file at timestamp_path */
-        int ret = fread(checkpoint_result, sizeof(uint64_t), 1, file);
+        int ret = fread(checkpoint, sizeof(uint64_t), 1, file);
         if (ret != 1) {
             fprintf(stderr, "Couldn't read from timestamp_path.");
             return false;
@@ -213,7 +215,7 @@ void snow_init(snow_config_t *config)
     }
 
     state->enabled = false;
-
+    
     if (config == NULL) {
         fprintf(stderr, "snow config is NULL.");
         return;
@@ -239,10 +241,13 @@ void snow_init(snow_config_t *config)
         fprintf(stderr, "Clock is too far advanced, failing to generate id.");
         return;
     }
-
+    
     state->checkpoint = checkpoint;
-    state->worker_id = get_worker_id_from_nw_if(config->interface);
     state->sequence_id = 0;
+
+    if (get_worker_id_from_nw_if(&state->worker_id, config->interface) == false) {
+        return;
+    }
 
     /* init has succeeded */
     state->enabled = true;
