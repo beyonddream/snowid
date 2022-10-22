@@ -5,6 +5,15 @@ LDFLAGS = -g
 
 all: snowid
 
+test: unit
+	./unit
+
+unit: snowid.o snowid_util.o snowid_test.o 
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_test.o
+
+snowid_test.o: tests/snowid_test.c snowid.h
+	$(CC) $(CFLAGS) $(LDFLAGS) -c tests/snowid_test.c -o $@ -I$(PWD)
+
 snowid: snowid.o snowid_util.o main.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o main.o
 
@@ -18,5 +27,5 @@ main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o $@
 
 clean:
-	rm -rf main.o snowid.o snowid_util.o snowid
+	rm -rf main.o snowid.o snowid_util.o snowid snowid_test.o unit
 .PHONY: clean
