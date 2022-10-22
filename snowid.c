@@ -98,6 +98,10 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
                 fprintf(stderr, "Couldn't read current timestamp.");
                 success = false;
             }
+            if (*checkpoint == 0) {
+                fprintf(stderr, "Checkpoint value seem to be zero.");
+                success = false;
+            }
             int ret = fwrite(checkpoint, sizeof(uint64_t), 1, file);
             if (ret != 1) {
                 fprintf(stderr, "Couldn't write to timestamp_path.");
