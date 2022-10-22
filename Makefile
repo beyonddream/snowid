@@ -23,8 +23,8 @@ snowid.o: snowid.c snowid.h
 snowid_util.o: snowid_util.c snowid_util.h
 	$(CC) $(CFLAGS) -c snowid_util.c -o $@
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c -o $@
+main.o: examples/main.c snowid.h
+	$(CC) $(CFLAGS) -c examples/main.c -o $@ -I$(PWD)
 
 clean:
 	rm -rf main.o snowid.o snowid_util.o snowid snowid_test.o unit
