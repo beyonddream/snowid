@@ -18,5 +18,5 @@ main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o $@
 
 clean:
-	rm -rf main.o snowid.o snowid
+	rm -rf main.o snowid.o snowid_util.o snowid
 .PHONY: clean
