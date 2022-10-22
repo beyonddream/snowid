@@ -84,6 +84,7 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
         timestamp_path = DEFAULT_CHECKPOINT_FILE_PATH;
     }
 
+    bool success = true;
     FILE *file = fopen(timestamp_path, "r");
     
     if (file == NULL) {
@@ -91,16 +92,16 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
         file = fopen(timestamp_path, "w");
         if (file == NULL) {
             fprintf(stderr, "Couldn't open timestamp_path for write.");
-            return false;
+            success = false;
         } else {
             if (get_current_ts(checkpoint) == false) {
                 fprintf(stderr, "Couldn't read current timestamp.");
-                return false;
+                success = false;
             }
             int ret = fwrite(checkpoint, sizeof(uint64_t), 1, file);
             if (ret != 1) {
                 fprintf(stderr, "Couldn't write to timestamp_path.");
-                return false;
+                success = false;
             }
             fclose(file);
         }
@@ -109,12 +110,16 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
         int ret = fread(checkpoint, sizeof(uint64_t), 1, file);
         if (ret != 1) {
             fprintf(stderr, "Couldn't read from timestamp_path.");
-            return false;
+            success = false;
+        }
+        if (checkpoint == 0) {
+            fprintf(stderr, "Checkpoint value seem to be zero.");
+            success = false;
         }
         fclose(file);
     }
     
-    return true;
+    return success;
 }
 
 static bool get_current_ts(uint64_t *result)
