@@ -29,6 +29,7 @@
 #include <stdlib.h> 
 
 #include "snowid.h"
+#include "snowid_util.h"
 
 typedef struct snow_state {
     bool enabled;
@@ -50,23 +51,34 @@ typedef struct snow_state {
 static snow_state_t *state;
 
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
-#define DEFAULT_INTERFACE "en0"
+
 /* maximum size of interface name */
 #define INET_IF_NAME_SIZE 16
 
 static bool get_current_ts(uint64_t *out);
-static bool get_checkpoint_mutable(uint64_t *out, char *);
-static bool get_worker_id_from_nw_if(uint64_t *out, char *);
+static bool get_checkpoint_mutable(uint64_t *out, char *timestamp_path);
+static bool get_worker_id_from_nw_if(uint64_t *out, char *interface);
 
 static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
 {
 
     (void)workerid;
-
-    if (interface == NULL) {
-        interface = DEFAULT_INTERFACE;
-    }
+    (void)interface;
     
+    /***
+     * 
+     * Algo should be thus:
+     * 
+     * 1) get all the network interfaces with name and ip
+     * 2) ignore ip that is loopback 0.0.0.0.0.0
+     * 3) if interface is null then use the first interface from 2)
+     * 4) if not try to find the interface from the list of interface
+     * and use its ip.
+    */
+    get_all_hw_ifs();
+    
+
+
 
     return true;
 }
@@ -116,7 +128,7 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
             fprintf(stderr, "Couldn't read from timestamp_path.");
             success = false;
         }
-        if (checkpoint == 0) {
+        if (*checkpoint == 0) {
             fprintf(stderr, "Checkpoint value seem to be zero.");
             success = false;
         }

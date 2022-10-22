@@ -5,11 +5,14 @@ LDFLAGS = -g
 
 all: snowid
 
-snowid: snowid.o main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o main.o
+snowid: snowid.o snowid_util.o main.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o main.o
 
 snowid.o: snowid.c snowid.h
 	$(CC) $(CFLAGS) -c snowid.c -o $@
+
+snowid_util.o: snowid_util.c snowid_util.h
+	$(CC) $(CFLAGS) -c snowid_util.c -o $@
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o $@
