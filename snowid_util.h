@@ -27,7 +27,10 @@
 
 /**
  * Get all network interface name and its address.
+ * 
+ * @param interface interface name to pull the address from.
+ * @return ipv6 address
  */
-void get_all_hw_ifs(void);
+char *get_all_hw_ifs(char *interface);
 
 #endif /* __SNOWID_UTIL_H__ */

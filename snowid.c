@@ -22,11 +22,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-#include <sys/time.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h> 
+#include <sys/time.h>
 
 #include "snowid.h"
 #include "snowid_util.h"
@@ -75,7 +75,7 @@ static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
      * 4) if not try to find the interface from the list of interface
      * and use its ip.
     */
-    get_all_hw_ifs();
+    get_all_hw_ifs(interface);
     
 
 

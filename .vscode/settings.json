@@ -15,6 +15,8 @@
         "stdio.h": "c",
         "locale": "c",
         "ostream": "c",
-        "new": "c"
+        "new": "c",
+        "snowid_util.h": "c",
+        "ifaddrs.h": "c"
     }
 }

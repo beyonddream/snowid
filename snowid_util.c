@@ -22,10 +22,26 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+#include <ifaddrs.h>
+#include <netdb.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <sys/types.h>
 
+#include "snowid_util.h"
 
-void get_all_hw_ifs(void)
+char *get_all_hw_ifs(char *interface)
 {
+    struct ifaddrs *ifaddr;
+    char host[NI_MAXHOST];
 
-    return;
+    (void)interface;
+    (void)host;
+
+    if (getifaddrs(&ifaddr) == -1) {
+        perror("get_all_hw_ifs::Call to getifaddrs failed");
+        return NULL;
+    }
+
+    return NULL;
 }
