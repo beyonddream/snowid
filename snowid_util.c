@@ -26,7 +26,18 @@
 #include <netdb.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
+#include <sys/socket.h>
+#include <ifaddrs.h>
+
+#if defined(linux)
+    #include <linux/if_link.h>
+    #define IF_HW_FAMILY AF_PACKET
+#else 
+    #include <net/if_dl.h>
+    #define IF_HW_FAMILY AF_LINK   /* MacOS/BSD */
+#endif
 
 #include "snowid_util.h"
 
@@ -34,13 +45,32 @@ char *get_all_hw_ifs(char *interface)
 {
     struct ifaddrs *ifaddr;
     char host[NI_MAXHOST];
+    int family;
 
     (void)interface;
     (void)host;
 
     if (getifaddrs(&ifaddr) == -1) {
-        perror("get_all_hw_ifs::Call to getifaddrs failed");
+        perror("get_all_hw_ifs():Call to getifaddrs failed");
         return NULL;
+    }
+
+    for (struct ifaddrs *ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+        if (ifa->ifa_addr == NULL) {
+            continue;
+        }
+
+        family = ifa->ifa_addr->sa_family;
+        
+        /* skip if socket doesn't support IPv6 */
+        if (family != IF_HW_FAMILY) {
+            continue;
+        }
+
+        /* skip loopback */
+        if ((ifa->ifa_name == NULL) || strncmp(ifa->ifa_name, "lo", 2) == 0) {
+            continue;
+        }
     }
 
     return NULL;
