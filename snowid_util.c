@@ -23,13 +23,15 @@
 * SOFTWARE.
 */
 #include <ifaddrs.h>
+#include <ifaddrs.h>
 #include <netdb.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/socket.h>
-#include <ifaddrs.h>
+#include <sys/types.h>
 
 #if defined(linux)
     #include <linux/if_link.h>
@@ -44,14 +46,22 @@
 char *get_all_hw_ifs(char *interface)
 {
     struct ifaddrs *ifaddr;
-    char host[NI_MAXHOST];
     int family;
-
-    (void)interface;
-    (void)host;
 
     if (getifaddrs(&ifaddr) == -1) {
         perror("get_all_hw_ifs():Call to getifaddrs failed");
+        return NULL;
+    }
+
+    const char hwaddr_fmt[] = "%02x:%02x:%02x:%02x:%02x:%02x";
+    int hwaddr_fmt_sz = strlen(hwaddr_fmt) + 1;
+    char hwaddr[hwaddr_fmt_sz];
+    bool found = false;
+
+    char *hwaddr_selected = malloc(sizeof(hwaddr)); 
+    
+    if (hwaddr_selected == NULL) {
+        fprintf(stderr, "get_all_hw_ifs:Malloc failed.");
         return NULL;
     }
 
@@ -71,7 +81,32 @@ char *get_all_hw_ifs(char *interface)
         if ((ifa->ifa_name == NULL) || strncmp(ifa->ifa_name, "lo", 2) == 0) {
             continue;
         }
+
+        #if defined(linux)
+            struct sockaddr_ll *sock_addr = (struct sockaddr_ll*)ifa->ifa_addr;
+            snprintf(hwaddr, hwaddr_fmt_sz, hwaddr_fmt
+                , sock_addr->sll_addr[0], sock_addr->sll_addr[1]
+                , sock_addr->sll_addr[2], sock_addr->sll_addr[3]
+                , sock_addr->sll_addr[4], sock_addr->sll_addr[5]);
+        #else
+            struct sockaddr_dl *sock_addr = (struct sockaddr_dl*)ifa->ifa_addr;
+            unsigned char *ptr = (unsigned char *)LLADDR(sock_addr);
+            snprintf(hwaddr, hwaddr_fmt_sz, hwaddr_fmt
+                , *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5));
+        #endif
+
+        memcpy(hwaddr_selected, hwaddr, sizeof(hwaddr));
+        found = true;
+
+        if (strncmp(ifa->ifa_name, interface, strlen(interface)) == 0) {
+            break;
+        }
     }
 
-    return NULL;
+    if (found == false) {
+        free(hwaddr_selected);
+        return NULL;
+    }
+
+    return hwaddr_selected;
 }

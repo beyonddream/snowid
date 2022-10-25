@@ -25,11 +25,14 @@
 #ifndef __SNOWID_UTIL_H__
 #define __SNOWID_UTIL_H__
 
-/**
- * Get all network interface name and its address.
+/*
+ * Returns a H/W (MAC) address either from the interface name
+ * but if the interface name is not present then return
+ * one of the H/W address from any of the interfaces except
+ * loopback.
  * 
  * @param interface interface name to pull the address from.
- * @return ipv6 address
+ * @return H/W MAC address
  */
 char *get_all_hw_ifs(char *interface);
 

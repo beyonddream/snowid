@@ -63,22 +63,9 @@ static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
 {
 
     (void)workerid;
-    (void)interface;
-    
-    /***
-     * 
-     * Algo should be thus:
-     * 
-     * 1) get all the network interfaces with name and ip
-     * 2) ignore ip that is loopback 0.0.0.0.0.0
-     * 3) if interface is null then use the first interface from 2)
-     * 4) if not try to find the interface from the list of interface
-     * and use its ip.
-    */
-    get_all_hw_ifs(interface);
-    
 
-
+    char *hwaddr = get_all_hw_ifs(interface);
+    (void)hwaddr;
 
     return true;
 }
