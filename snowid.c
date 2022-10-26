@@ -52,9 +52,6 @@ static snow_state_t *state;
 
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
 
-/* maximum size of interface name */
-#define INET_IF_NAME_SIZE 16
-
 static bool get_current_ts(uint64_t *out);
 static bool get_checkpoint_mutable(uint64_t *out, char *timestamp_path);
 static bool get_worker_id_from_nw_if(uint64_t *out, char *interface);
