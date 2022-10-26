@@ -195,13 +195,14 @@ void snow_dump(FILE *stream)
 #define FPRINTF(KEY, VALUE)                  \
         do {                                 \
             fprintf(stream, (KEY), (VALUE)); \
-        } while(0);
-    FPRINTF("%s", "\n{")
-    FPRINTF("\"enabled\":%d,", state->enabled)
-    FPRINTF("\"worker_id\":%llu,", state->worker_id)
-    FPRINTF("\"checkpoint\":%llu,", state->checkpoint)
-    FPRINTF("\"sequence_id\":%hu", state->sequence_id)
-    FPRINTF("%s", "}\n")
+        } while(0)
+        
+    FPRINTF("%s", "\n{");
+    FPRINTF("\"enabled\":%d,", state->enabled);
+    FPRINTF("\"worker_id\":%llu,", state->worker_id);
+    FPRINTF("\"checkpoint\":%llu,", state->checkpoint);
+    FPRINTF("\"sequence_id\":%hu", state->sequence_id);
+    FPRINTF("%s", "}\n");
 #undef FPRINTF
 
     return;
