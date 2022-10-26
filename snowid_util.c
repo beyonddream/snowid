@@ -75,13 +75,13 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
         #if defined(linux)
             struct sockaddr_ll *sock_addr = (struct sockaddr_ll*)ifa->ifa_addr;
             for (uint8_t i = 5; i >=0; i--) {
-                *workerid |= *sock_addr->sll_addr++ << (CHAR_BIT * i);
+                *workerid |= (uint64_t)*sock_addr->sll_addr++ << (CHAR_BIT * i);
             }
         #else
             struct sockaddr_dl *sock_addr = (struct sockaddr_dl*)ifa->ifa_addr;
             unsigned char *ptr = (unsigned char *)LLADDR(sock_addr);
             for (uint8_t i = 5; i >=0; i--) {
-                *workerid |= *ptr++ << (CHAR_BIT * i);
+                *workerid |= (uint64_t)*ptr++ << (CHAR_BIT * i);
             }
         #endif
 
