@@ -65,7 +65,10 @@ static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
     (void)workerid;
 
     char *hwaddr = get_all_hw_ifs(interface);
-    (void)hwaddr;
+    
+    if (hwaddr == NULL) {
+        return false;
+    }
 
     return true;
 }
