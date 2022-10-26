@@ -250,7 +250,7 @@ void snow_init(snow_config_t *config)
         return;
     }
     
-    state->checkpoint = checkpoint;
+    state->checkpoint = current_time;
     state->sequence_id = 0;
 
     if (get_worker_id_from_nw_if(&state->worker_id, config->interface) == false) {
