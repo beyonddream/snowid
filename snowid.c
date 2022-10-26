@@ -59,15 +59,11 @@ static bool get_worker_id_from_nw_if(uint64_t *out, char *interface);
 static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
 {
 
-    (void)workerid;
-
-    char *hwaddr = get_all_hw_ifs(interface);
-    
-    if (hwaddr == NULL) {
+    if (workerid == NULL) {
         return false;
     }
 
-    return true;
+    return get_hw_addr_as_binary(workerid, interface);
 }
 
 static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
