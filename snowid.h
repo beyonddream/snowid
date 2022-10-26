@@ -57,7 +57,8 @@ bool snow_get_id(snow_id_t *id);
 void snow_dump(FILE *stream);
 
 /**
- * Initializes the snowid engine with the config.
+ * Initializes the snowid engine with the config. It has to be called only once before
+ * calling any other API functions.
  * 
  * @arg config - The snowid configuration
  * @return void
@@ -65,7 +66,8 @@ void snow_dump(FILE *stream);
 void snow_init(snow_config_t *config);
 
 /**
- * Deinitializes the snowid engine
+ * Deinitializes the snowid engine. It has to be called only once at the end
+ * and no other API functions should be called after it except snow_init().
  * 
  * @arg void
  * @return void
