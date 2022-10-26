@@ -87,7 +87,7 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 
         found = true;
 
-        if (strncmp(ifa->ifa_name, interface, strlen(interface)) == 0) {
+        if (interface != NULL && strncmp(ifa->ifa_name, interface, strlen(interface)) == 0) {
             break;
         }
     }
