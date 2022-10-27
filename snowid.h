@@ -34,11 +34,13 @@ typedef struct snow_config {
     uint64_t allowable_downtime; /* time since snowid is called last - default 0 */
 } snow_config_t;
 
-typedef struct snow_id {
+struct snow_id {
     uint64_t timestamp: 64;
     uint64_t worker_id: 48;
     uint16_t sequence_id: 16;
-} snow_id_t;
+}__attribute__((packed));
+
+typedef struct snow_id snow_id_t;
 
 /**
  * Generates unique 128-bit id from current timestamp,worker_id,sequence_id.
