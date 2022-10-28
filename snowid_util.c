@@ -34,6 +34,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
+#include "snowid_util.h"
+
 #if defined(linux)
     #include <linux/if_link.h>
     #define IF_HW_FAMILY AF_PACKET
@@ -41,8 +43,6 @@
     #include <net/if_dl.h>
     #define IF_HW_FAMILY AF_LINK   /* MacOS/BSD */
 #endif
-
-#include "snowid_util.h"
 
 bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 {
