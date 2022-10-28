@@ -25,6 +25,10 @@
 #ifndef __SNOWID_CHECKPOINT_H__
 #define __SNOWID_CHECKPOINT_H__
 
+#include <unistd.h>
 
+bool snow_checkpoint_start();
+
+bool snow_checkpoint_end();
 
 #endif /* __SNOWID_CHECKPOINT_H__ */
