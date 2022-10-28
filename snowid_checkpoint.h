@@ -27,8 +27,8 @@
 
 #include <unistd.h>
 
-bool snow_checkpoint_start();
+bool snow_checkpoint_start(void);
 
-bool snow_checkpoint_end();
+bool snow_checkpoint_end(void);
 
 #endif /* __SNOWID_CHECKPOINT_H__ */

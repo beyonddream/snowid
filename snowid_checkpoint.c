@@ -22,3 +22,12 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
+#include <stdbool.h>
+#include "snowid_checkpoint.h"
+
+bool snow_checkpoint_start(void)
+{
+
+    return true;
+}

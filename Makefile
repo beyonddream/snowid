@@ -9,13 +9,13 @@ test: unit
 	./unit
 
 unit: snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o 
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_test.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o
 
 snowid_test.o: tests/snowid_test.c snowid.h
 	$(CC) $(CFLAGS) $(LDFLAGS) -c tests/snowid_test.c -o $@ -I$(PWD)
 
 snowid: snowid.o snowid_util.o snowid_checkpoint.o main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o main.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o main.o
 
 snowid.o: snowid.c snowid.h
 	$(CC) $(CFLAGS) -c snowid.c -o $@

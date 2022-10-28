@@ -258,6 +258,9 @@ void snow_init(snow_config_t *config)
         return;
     }
 
+    /* start a child process to periodically save current time in `timestamp_path`*/
+    snow_checkpoint_start();
+
     /* init has succeeded */
     state->enabled = true;
 
