@@ -30,6 +30,7 @@
 
 #include "snowid.h"
 #include "snowid_util.h"
+#include "snowid_checkpoint.h"
 
 typedef struct snow_state {
     bool enabled;
