@@ -26,7 +26,6 @@
 #include <ifaddrs.h>
 #include <limits.h>
 #include <netdb.h>
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>

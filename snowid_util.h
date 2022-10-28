@@ -25,6 +25,8 @@
 #ifndef __SNOWID_UTIL_H__
 #define __SNOWID_UTIL_H__
 
+#include <stdbool.h>
+
 /*
  * Retrive a binary representation of the H/W (MAC) address either from the interface name
  * but if the interface name is not present then one of the H/W address from any of the

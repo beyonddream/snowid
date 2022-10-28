@@ -25,6 +25,7 @@
 #ifndef __SNOWID_CHECKPOINT_H__
 #define __SNOWID_CHECKPOINT_H__
 
+#include <stdbool.h>
 #include <unistd.h>
 
 bool snow_checkpoint_start(void);

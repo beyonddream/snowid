@@ -23,7 +23,6 @@
 * SOFTWARE.
 */
 
-#include <stdbool.h>
 #include "snowid_checkpoint.h"
 
 bool snow_checkpoint_start(void)
