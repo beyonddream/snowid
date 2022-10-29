@@ -26,10 +26,7 @@
 #define __SNOWID_CHECKPOINT_H__
 
 #include <stdbool.h>
-#include <unistd.h>
 
-bool snow_checkpoint_start(void);
-
-bool snow_checkpoint_end(void);
+bool snow_checkpoint_start(char *timestamp_path);
 
 #endif /* __SNOWID_CHECKPOINT_H__ */

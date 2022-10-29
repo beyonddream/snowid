@@ -22,11 +22,45 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+#include <stdio.h>
+#include <unistd.h>
 
 #include "snowid_checkpoint.h"
 
-bool snow_checkpoint_start(void)
+static void snow_checkpoint_periodic(char *timestamp_path);
+
+static void snow_checkpoint_periodic(char *timestamp_path)
 {
+
+    (void)timestamp_path;
+
+    return;
+}
+
+bool snow_checkpoint_start(char *timestamp_path)
+{
+    
+    if (timestamp_path == NULL) {
+        fprintf(stderr, "snow_checkpoint_start():timestamp_path is NULL.");
+        return false;
+    }
+    
+    if (access(timestamp_path, W_OK) != 0) {
+        perror("snow_checkpoint_start():error while checking access to `timestamp_path`.");
+        return false;
+    } 
+
+    int pid = fork();
+
+    if (pid < 0) {
+        perror("snow_checkpoint_start():Call to fork failed.");
+        return false;
+    }
+
+    /* child */
+    if (pid == 0) {
+        snow_checkpoint_periodic(timestamp_path);
+    }
 
     return true;
 }
