@@ -22,19 +22,51 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+#include <fcntl.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "snowid_checkpoint.h"
+#include "snowid_util.h"
+
+#define CHECKPOINT_PERIOD_SECS 2
 
 static void snow_checkpoint_periodic(char *timestamp_path);
 
 static void snow_checkpoint_periodic(char *timestamp_path)
 {
+    int fd;
+    uint64_t buf[1];
 
-    (void)timestamp_path;
+    if ((fd = open(timestamp_path, O_WRONLY)) == -1) {
+        _exit(1);
+    }
 
-    return;
+    uint64_t checkpoint;
+
+    for(;;) {
+        /* check if child is reparented to init(1), if so then exit.*/
+        if (getppid() == 1) {
+            _exit(0);
+        }
+
+        if (get_current_ts(&checkpoint) == false) {
+            continue;
+        }
+
+        buf[0] = checkpoint;
+
+        lseek(fd, 0, SEEK_SET);
+        /* XXX - ignore write() errors - it may recover during next try (: */
+        write(fd, buf, 1);
+        /* XXX - ignore fsync() errors - it may recover during next try (: */
+        fsync(fd);
+
+        sleep(CHECKPOINT_PERIOD_SECS);
+    }
+
+    _exit(1);
 }
 
 bool snow_checkpoint_start(char *timestamp_path)
@@ -48,7 +80,7 @@ bool snow_checkpoint_start(char *timestamp_path)
     if (access(timestamp_path, W_OK) != 0) {
         perror("snow_checkpoint_start():error while checking access to `timestamp_path`.");
         return false;
-    } 
+    }
 
     int pid = fork();
 

@@ -26,7 +26,8 @@ int main(void) {
         }
         snow_dump(NULL);
         if (i == 500) {
-            sleep(2);
+            printf("sleeping for 4 sec...");
+            sleep(4);
         }
     }
 

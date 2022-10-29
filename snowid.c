@@ -26,7 +26,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h> 
-#include <sys/time.h>
 
 #include "snowid.h"
 #include "snowid_util.h"
@@ -53,7 +52,6 @@ static snow_state_t *state;
 
 #define DEFAULT_CHECKPOINT_FILE_PATH "/data/snowid/timestamp.out"
 
-static bool get_current_ts(uint64_t *out);
 static bool get_checkpoint_mutable(uint64_t *out, char *timestamp_path);
 static bool get_worker_id_from_nw_if(uint64_t *out, char *interface);
 
@@ -120,25 +118,6 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
     }
     
     return success;
-}
-
-static bool get_current_ts(uint64_t *result)
-{
-    time_t t;
-
-    if (result == NULL) {
-        return false;
-    }
-
-    t = time(NULL);
-
-    if (t == (time_t)-1) {
-        return false;
-    }
-
-    *result = (uint64_t)t;
-
-    return true;
 }
 
 bool snow_get_id(snow_id_t *dest)

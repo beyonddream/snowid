@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <sys/types.h>
 
 #include "snowid_util.h"
@@ -92,4 +93,23 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
     }
 
     return found;
+}
+
+bool get_current_ts(uint64_t *result)
+{
+    time_t t;
+
+    if (result == NULL) {
+        return false;
+    }
+
+    t = time(NULL);
+
+    if (t == (time_t)-1) {
+        return false;
+    }
+
+    *result = (uint64_t)t;
+
+    return true;
 }

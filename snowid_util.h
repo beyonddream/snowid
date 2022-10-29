@@ -27,7 +27,7 @@
 
 #include <stdbool.h>
 
-/*
+/**
  * Retrive a binary representation of the H/W (MAC) address either from the interface name
  * but if the interface name is not present then one of the H/W address from any of the
  * interfaces except loopback.
@@ -37,5 +37,11 @@
  * @return success if we could set a workerid, else failure.
  */
 bool get_hw_addr_as_binary(uint64_t *workerid, char *interface);
+
+/**
+ * @param result - set the current timestamp to the value pointed by result.
+ * @return true if success else false.
+*/
+bool get_current_ts(uint64_t *result);
 
 #endif /* __SNOWID_UTIL_H__ */
