@@ -42,6 +42,8 @@ struct snow_id {
 
 typedef struct snow_id snow_id_t;
 
+typedef unsigned char snow_id_binary_t[16];
+
 /**
  * Generates unique 128-bit id from current timestamp,worker_id,sequence_id.
  * sequence_id is incremented as many times as the function is called within the
@@ -81,7 +83,7 @@ void snow_shutdown(void);
  * @param snowid - snowid struct
  * @return true if success, else false.
 */
-bool get_snowid_as_binary(unsigned char out[64], snow_id_t snowid);
+bool get_snowid_as_binary(snow_id_binary_t out, snow_id_t *snowid);
 
 
 #endif /* __SNOWID_H__ */

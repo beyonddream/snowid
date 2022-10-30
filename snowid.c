@@ -22,6 +22,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+#include <limits.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -164,11 +165,32 @@ bool snow_get_id(snow_id_t *dest)
     return true;
 }
 
-bool get_snowid_as_binary(unsigned char out[64], snow_id_t snowid)
+bool get_snowid_as_binary(snow_id_binary_t out, snow_id_t *snowid)
 {
+    int idx = 0;
 
-    (void)out;
-    (void)snowid;
+    if (out == NULL || snowid == NULL) {
+        return false;
+    }
+
+    uint64_t timestamp   = snowid->timestamp;
+    uint64_t workerid    = snowid->worker_id;
+    uint16_t sequenceid  = snowid->sequence_id;
+
+    /* convert the timestamp into 64 bits */
+    for(int8_t i = 7; i >= 0; i--) {
+        out[idx++] = (timestamp >> (CHAR_BIT * i)) & 0xff;
+    }
+
+    /* convert the worker id into 48 bits */
+    for(int8_t i = 5; i >= 0; i--) {
+        out[idx++] = (workerid >> (CHAR_BIT * i)) & 0xff;
+    }
+
+    /* convert the sequence id into 16 bits */
+    for(int8_t i = 1; i >= 0; i--) {
+        out[idx++] = (sequenceid >> (CHAR_BIT * i)) & 0xff;
+    }
 
     return true;
 }
