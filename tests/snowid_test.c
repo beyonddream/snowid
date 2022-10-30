@@ -24,12 +24,14 @@ int main(void) {
             printf("unable to generate snowid");
             break;
         }
-        snow_dump(NULL);
+        
         if (i == 500) {
             printf("sleeping for 4 sec...");
             sleep(4);
         }
     }
+
+    snow_dump(NULL);
 
     snow_shutdown();
 

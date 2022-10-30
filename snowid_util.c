@@ -48,6 +48,7 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 {
     struct ifaddrs *ifaddr;
     int family;
+    char *ifa_name;
     bool found = false;
 
     if (getifaddrs(&ifaddr) == -1) {
@@ -86,10 +87,16 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
         #endif
 
         found = true;
+        ifa_name = ifa->ifa_name;
 
         if (interface != NULL && strncmp(ifa->ifa_name, interface, strlen(interface)) == 0) {
+            fprintf(stdout, "found the interface %s, whose worker id is %llu\n", interface, *workerid);
             break;
         }
+    }
+
+    if (found == true && interface == NULL) {
+        fprintf(stdout, "found alternate interface %s, whose worker id is %llu\n", ifa_name, *workerid);
     }
 
     return found;
