@@ -49,10 +49,10 @@ typedef unsigned char snow_id_binary_t[16];
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
- * @arg id - If able to generate an id, set the value of id to `snow_id`.
+ * @arg dest - If able to generate an id, set the value of id to `snow_id`.
  * @return true if successfully able to generate an id, false if not.
  */
-bool snow_get_id(snow_id_t *id);
+bool snow_get_id(snow_id_t *dest);
 
 /**
  * Dump snow state and config to stdout for debugging.
@@ -79,11 +79,11 @@ void snow_init(snow_config_t *config);
 void snow_shutdown(void);
 
 /**
- * @param out - snowid converted to 128 bits
- * @param snowid - snowid struct
+ * @param dest_as_bin - set to snowid converted to 128 bits
+ * @param dest - set to snowid as snow_id_t struct
  * @return true if success, else false.
 */
-bool get_snowid_as_binary(snow_id_binary_t out, snow_id_t *snowid);
+bool get_snowid_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest);
 
 
 #endif /* __SNOWID_H__ */

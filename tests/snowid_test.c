@@ -19,15 +19,20 @@ int main(void) {
     snow_dump(NULL);
 
     snow_id_t snow_id;
+    snow_id_t snow_id_binary;
     unsigned char out[16] = {0};
 
     for(int i = 1; i <= 1000; i++) {
         if (snow_get_id(&snow_id) == false) {
-            printf("unable to generate snowid\n");
+            puts("unable to generate snowid");
             break;
         }
 
-        get_snowid_as_binary(out, &snow_id);
+        if (get_snowid_as_binary(out, &snow_id_binary) == false) {
+            puts("unable to generate snowid as binary");
+            break;
+        }
+
         for (int8_t i = 0; i < 16; i++) {
             printf("%x", out[i]);
             if (i != 15) {
@@ -37,7 +42,7 @@ int main(void) {
         printf("\n");
 
         if (i == 500) {
-            printf("sleeping for 4 sec...\n");
+            puts("sleeping for 4 sec...");
             sleep(4);
         }
     }

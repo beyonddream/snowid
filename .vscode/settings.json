@@ -19,6 +19,7 @@
         "snowid_util.h": "c",
         "ifaddrs.h": "c",
         "snowid_checkpoint.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "__locale": "c"
     }
 }
