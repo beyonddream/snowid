@@ -32,6 +32,7 @@
 #include "snowid_checkpoint.h"
 
 typedef struct snow_state {
+    /* Id will be generated only if true */
     bool enabled;
     /**
      * `checkpoint` is last time when an id was generated.
@@ -40,7 +41,9 @@ typedef struct snow_state {
      * the id.
      */
     uint64_t checkpoint;
+    /* 48-bits MAC address */
     uint64_t worker_id;
+    /* 16 bit increments within same millisecond */
     uint16_t sequence_id;
 } snow_state_t;
 
@@ -163,7 +166,7 @@ bool snow_get_id(snow_id_t *dest)
 
 bool get_snowid_as_binary(unsigned char out[64], snow_id_t snowid)
 {
-    
+
     (void)out;
     (void)snowid;
 

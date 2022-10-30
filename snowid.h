@@ -35,10 +35,10 @@ typedef struct snow_config {
 } snow_config_t;
 
 struct snow_id {
-    uint64_t timestamp: 64;
-    uint64_t worker_id: 48;
-    uint16_t sequence_id: 16;
-}__attribute__((packed));
+    uint64_t timestamp;
+    uint64_t worker_id;
+    uint16_t sequence_id;
+};
 
 typedef struct snow_id snow_id_t;
 
