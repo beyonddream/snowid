@@ -76,5 +76,12 @@ void snow_init(snow_config_t *config);
  */
 void snow_shutdown(void);
 
+/**
+ * @param out - snowid converted to 128 bits
+ * @param snowid - snowid struct
+ * @return true if success, else false.
+*/
+bool get_snowid_as_binary(unsigned char out[64], snow_id_t snowid);
+
 
 #endif /* __SNOWID_H__ */

@@ -161,6 +161,15 @@ bool snow_get_id(snow_id_t *dest)
     return true;
 }
 
+bool get_snowid_as_binary(unsigned char out[64], snow_id_t snowid)
+{
+    
+    (void)out;
+    (void)snowid;
+
+    return true;
+}
+
 void snow_dump(FILE *stream)
 {
 
