@@ -30,5 +30,5 @@ main.o: examples/main.c snowid.h
 	$(CC) $(CFLAGS) -c examples/main.c -o $@ -I$(PWD)
 
 clean:
-	rm -rf main.o snowid.o snowid_util.o snowid_checkpoint.o snowid snowid_test.o unit
+	rm -rf main.o snowid.o snowid_util.o snowid_checkpoint.o snowid snowid_test.o unit timestamp.out
 .PHONY: clean

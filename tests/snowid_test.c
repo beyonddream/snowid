@@ -13,8 +13,10 @@
 #define TEST_CHECK_RESULT(desc, result)                 \
     do {                                                \
         if ((result) != true) {                         \
-            fprintf(stderr, "Test %s failed", (desc));  \
+            fprintf(stderr, "%s: NOT_OK\n", (desc));    \
             exit(1);                                    \
+        } else {                                        \
+            fprintf(stdout, "%s: OK\n", (desc));        \
         }                                               \
     } while(0)
 
@@ -51,7 +53,7 @@ bool test_snow_get_id_as_binary()
     return expected;
 }
 
-bool test_snow_get_id_for_garbage_interface() 
+bool test_snow_get_id_for_unknown_interface() 
 {
     snow_config_t config = {
         .interface = "xxx",
@@ -67,7 +69,7 @@ bool test_snow_get_id_for_garbage_interface()
     return expected;
 }
 
-bool test_snow_get_id_as_binary_for_garbage_interface() 
+bool test_snow_get_id_as_binary_for_unknown_interface() 
 {
     snow_config_t config = {
         .interface = "xxx",
@@ -84,14 +86,32 @@ bool test_snow_get_id_as_binary_for_garbage_interface()
     return expected;
 }
 
+bool test_snow_get_id_for_zero_downtime() 
+{
+    snow_config_t config = {
+        .interface = "xxx",
+        .timestamp_path = "./timestamp.out",
+        .allowable_downtime = 0,
+    };
+
+    TEST_PRE_SETUP(config);
+    snow_id_t snow_id;
+    bool expected = snow_get_id(&snow_id);
+    TEST_POST_SETUP();
+    
+    return (expected == false);
+}
+
 int main(void) 
 {
 
     TEST_CHECK_RESULT("test_snow_get_id", test_snow_get_id());
     TEST_CHECK_RESULT("test_snow_get_id_as_binary", test_snow_get_id_as_binary());
     TEST_CHECK_RESULT("test_snow_get_id_for_garbage_interface",
-     test_snow_get_id_for_garbage_interface());
+     test_snow_get_id_for_unknown_interface());
     TEST_CHECK_RESULT("test_snow_get_id_as_binary_for_garbage_interface",
-     test_snow_get_id_as_binary_for_garbage_interface());
+     test_snow_get_id_as_binary_for_unknown_interface());
+    TEST_CHECK_RESULT("test_snow_get_id_for_zero_downtime",
+     test_snow_get_id_for_zero_downtime());
     return EXIT_SUCCESS;
 }

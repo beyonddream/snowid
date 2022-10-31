@@ -90,20 +90,20 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
         /* create a new file at timestamp_path */
         file = fopen(timestamp_path, "w");
         if (file == NULL) {
-            fprintf(stderr, "Couldn't open timestamp_path for write.");
+            fprintf(stderr, "Couldn't open timestamp_path for write.\n");
             success = false;
         } else {
             if (get_current_ts(checkpoint) == false) {
-                fprintf(stderr, "Couldn't read current timestamp.");
+                fprintf(stderr, "Couldn't read current timestamp.\n");
                 success = false;
             }
             if (*checkpoint == 0) {
-                fprintf(stderr, "Checkpoint value seem to be zero.");
+                fprintf(stderr, "Checkpoint value seem to be zero.\n");
                 success = false;
             }
             int ret = fwrite(checkpoint, sizeof(uint64_t), 1, file);
             if (ret != 1) {
-                fprintf(stderr, "Couldn't write to timestamp_path.");
+                fprintf(stderr, "Couldn't write to timestamp_path.\n");
                 success = false;
             }
             fclose(file);
@@ -112,11 +112,11 @@ static bool get_checkpoint_mutable(uint64_t *checkpoint, char *timestamp_path)
         /* read from the existing file at timestamp_path */
         int ret = fread(checkpoint, sizeof(uint64_t), 1, file);
         if (ret != 1) {
-            fprintf(stderr, "Couldn't read from timestamp_path.");
+            fprintf(stderr, "Couldn't read from timestamp_path.\n");
             success = false;
         }
         if (*checkpoint == 0) {
-            fprintf(stderr, "Checkpoint value seem to be zero.");
+            fprintf(stderr, "Checkpoint value seem to be zero.\n");
             success = false;
         }
         fclose(file);
@@ -142,7 +142,7 @@ bool snow_get_id(snow_id_t *dest)
     }
 
     if (state->checkpoint > current_time) {
-        fprintf(stderr, "Clock is running backwards.");
+        fprintf(stderr, "Clock is running backwards.\n");
         state->enabled = false;
         return false;
     }
@@ -236,14 +236,14 @@ void snow_init(snow_config_t *config)
     state = malloc(sizeof(snow_state_t));
 
     if (state == NULL) {
-        fprintf(stderr, "malloc of snow_state_t failed.");
+        fprintf(stderr, "malloc of snow_state_t failed.\n");
         return;
     }
 
     state->enabled = false;
     
     if (config == NULL) {
-        fprintf(stderr, "snow config is NULL.");
+        fprintf(stderr, "snow config is NULL.\n");
         return;
     }
 
@@ -258,14 +258,14 @@ void snow_init(snow_config_t *config)
     }
     
     if (checkpoint > current_time) {
-        fprintf(stderr, "Clock is running backwards, failing to generate id.");
+        fprintf(stderr, "Clock is running backwards, failing to generate id.\n");
         return;
     }
     
     allowable_downtime = config->allowable_downtime;
-
+    
     if ((current_time - checkpoint) > allowable_downtime) {
-        fprintf(stderr, "Clock is too far advanced, failing to generate id.");
+        fprintf(stderr, "Clock is too far advanced, failing to generate id.\n");
         return;
     }
     
