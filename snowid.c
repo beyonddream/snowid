@@ -59,6 +59,7 @@ static snow_state_t *state;
 
 static bool get_checkpoint_mutable(uint64_t *out, char *timestamp_path);
 static bool get_worker_id_from_nw_if(uint64_t *out, char *interface);
+static bool get_snowid_to_binary(snow_id_binary_t out, const snow_id_t *snowid);
 
 static bool get_worker_id_from_nw_if(uint64_t *workerid, char *interface)
 {
@@ -166,38 +167,55 @@ bool snow_get_id(snow_id_t *dest)
     return true;
 }
 
-bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest)
+static bool get_snowid_to_binary(snow_id_binary_t out, const snow_id_t *snowid)
 {
     int idx = 0;
 
-    if (dest_as_bin == NULL || dest == NULL) {
-        return false;
-    }
-
-    if (snow_get_id(dest) == false) {
-        return false;
-    }
-
-    uint64_t timestamp   = dest->timestamp;
-    uint64_t workerid    = dest->worker_id;
-    uint16_t sequenceid  = dest->sequence_id;
+    uint64_t timestamp   = snowid->timestamp;
+    uint64_t workerid    = snowid->worker_id;
+    uint16_t sequenceid  = snowid->sequence_id;
 
     /* convert the timestamp into 64 bits */
     for(int8_t i = 7; i >= 0; i--) {
-        dest_as_bin[idx++] = (timestamp >> (CHAR_BIT * i)) & 0xff;
+        out[idx++] = (timestamp >> (CHAR_BIT * i)) & 0xff;
     }
 
     /* convert the worker id into 48 bits */
     for(int8_t i = 5; i >= 0; i--) {
-        dest_as_bin[idx++] = (workerid >> (CHAR_BIT * i)) & 0xff;
+        out[idx++] = (workerid >> (CHAR_BIT * i)) & 0xff;
     }
 
     /* convert the sequence id into 16 bits */
     for(int8_t i = 1; i >= 0; i--) {
-        dest_as_bin[idx++] = (sequenceid >> (CHAR_BIT * i)) & 0xff;
+        out[idx++] = (sequenceid >> (CHAR_BIT * i)) & 0xff;
     }
 
     return true;
+}
+
+bool snow_id_convert(snow_id_binary_t out, const snow_id_t *snowid) {
+
+    if (out == NULL || snowid == NULL) {
+        return false;
+    }
+
+    return get_snowid_to_binary(out, snowid);
+}
+
+bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin)
+{
+    
+    if (dest_as_bin == NULL) {
+        return false;
+    }
+
+    snow_id_t dest;
+
+    if (snow_get_id(&dest) == false) {
+        return false;
+    }
+
+    return get_snowid_to_binary(dest_as_bin, &dest);
 }
 
 void snow_dump(FILE *stream)

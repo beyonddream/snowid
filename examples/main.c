@@ -19,7 +19,6 @@ int main(void)
     snow_dump(NULL);
 
     snow_id_t snow_id;
-    snow_id_t snow_id_binary;
     unsigned char out[16] = {0};
 
     for(int i = 1; i <= 1000; i++) {
@@ -28,7 +27,7 @@ int main(void)
             break;
         }
 
-        if (snow_get_id_as_binary(out, &snow_id_binary) == false) {
+        if (snow_get_id_as_binary(out) == false) {
             puts("unable to generate snowid as binary");
             break;
         }

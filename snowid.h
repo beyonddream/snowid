@@ -80,11 +80,21 @@ void snow_init(snow_config_t *config);
 void snow_shutdown(void);
 
 /**
+ * Generate a new snow_id as binary - unsigned char[16] representing 128 bits.
+ * Represented as:
+ * <unix timestamp (64 bits) + MAC address (48 bits) + sequence number (16 bits)>
+ * 
  * @param dest_as_bin - set to snowid converted to 128 bits
- * @param dest - set to snowid as snow_id_t struct
  * @return true if success, else false.
 */
-bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest);
+bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin);
 
+/**
+ * Convert an already generated snow_id as binary - contiguous array of 128 bits. 
+ * 
+ * @param out - set the converted snowid as binary
+ * @param snowid - pass in already generated snowid
+*/
+bool snow_id_convert(snow_id_binary_t out, const snow_id_t *snowid);
 
 #endif /* __SNOWID_H__ */
