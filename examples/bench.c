@@ -4,7 +4,7 @@
 
 #include "snowid.h"
 
-bool inline bench()
+static inline bool bench()
 {
     snow_config_t config = {
         .interface = "en0",
