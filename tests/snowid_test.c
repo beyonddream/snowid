@@ -4,52 +4,94 @@
 
 #include "snowid.h"
 
-int main(void) {
+#define TEST_PRE_SETUP(config) \
+    snow_init(&(config))
     
-    puts("Test program for snowid...");
+#define TEST_POST_SETUP()  \
+    snow_shutdown()
 
+#define TEST_CHECK_RESULT(desc, result)                 \
+    do {                                                \
+        if ((result) != true) {                         \
+            fprintf(stderr, "Test %s failed", (desc));  \
+            exit(1);                                    \
+        }                                               \
+    } while(0)
+
+bool test_snow_get_id() 
+{
     snow_config_t config = {
         .interface = "en0",
         .timestamp_path = "./timestamp.out",
         .allowable_downtime = 2592000000,
     };
 
-    snow_init(&config);
-
-    snow_dump(NULL);
-
+    TEST_PRE_SETUP(config);
     snow_id_t snow_id;
-    snow_id_t snow_id_binary;
+    bool expected = snow_get_id(&snow_id);
+    TEST_POST_SETUP();
+    
+    return expected;
+}
+
+bool test_snow_get_id_as_binary() 
+{
+    snow_config_t config = {
+        .interface = "en0",
+        .timestamp_path = "./timestamp.out",
+        .allowable_downtime = 2592000000,
+    };
+
+    TEST_PRE_SETUP(config);
+    snow_id_t snow_id;
     unsigned char out[16] = {0};
+    bool expected = snow_get_id_as_binary(out, &snow_id);
+    TEST_POST_SETUP();
 
-    for(int i = 1; i <= 1000; i++) {
-        if (snow_get_id(&snow_id) == false) {
-            puts("unable to generate snowid");
-            break;
-        }
+    return expected;
+}
 
-        if (snow_get_id_as_binary(out, &snow_id_binary) == false) {
-            puts("unable to generate snowid as binary");
-            break;
-        }
+bool test_snow_get_id_for_garbage_interface() 
+{
+    snow_config_t config = {
+        .interface = "xxx",
+        .timestamp_path = "./timestamp.out",
+        .allowable_downtime = 2592000000,
+    };
 
-        for (int8_t i = 0; i < 16; i++) {
-            printf("%x", out[i]);
-            if (i != 15) {
-                printf(":");
-            }
-        }
-        printf("\n");
+    TEST_PRE_SETUP(config);
+    snow_id_t snow_id;
+    bool expected = snow_get_id(&snow_id);
+    TEST_POST_SETUP();
+    
+    return expected;
+}
 
-        if (i == 500) {
-            puts("sleeping for 4 sec...");
-            sleep(4);
-        }
-    }
+bool test_snow_get_id_as_binary_for_garbage_interface() 
+{
+    snow_config_t config = {
+        .interface = "xxx",
+        .timestamp_path = "./timestamp.out",
+        .allowable_downtime = 2592000000,
+    };
 
-    snow_dump(NULL);
+    TEST_PRE_SETUP(config);
+    snow_id_t snow_id;
+    unsigned char out[16] = {0};
+    bool expected = snow_get_id_as_binary(out, &snow_id);
+    TEST_POST_SETUP();
+    
+    return expected;
+}
 
-    snow_shutdown();
+int main(void) 
+{
 
+    TEST_CHECK_RESULT("test_snow_get_id", test_snow_get_id());
+    TEST_CHECK_RESULT("test_snow_get_id_as_binary", test_snow_get_id_as_binary());
+    TEST_CHECK_RESULT("test_snow_get_id_for_garbage_interface",
+     test_snow_get_id_for_garbage_interface());
+    TEST_CHECK_RESULT("test_snow_get_id_as_binary_for_garbage_interface",
+     test_snow_get_id_as_binary_for_garbage_interface());
     return EXIT_SUCCESS;
 }
