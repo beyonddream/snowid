@@ -28,7 +28,7 @@ int main(void) {
             break;
         }
 
-        if (get_snowid_as_binary(out, &snow_id_binary) == false) {
+        if (snow_get_id_as_binary(out, &snow_id_binary) == false) {
             puts("unable to generate snowid as binary");
             break;
         }

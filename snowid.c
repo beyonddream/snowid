@@ -165,7 +165,7 @@ bool snow_get_id(snow_id_t *dest)
     return true;
 }
 
-bool get_snowid_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest)
+bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest)
 {
     int idx = 0;
 

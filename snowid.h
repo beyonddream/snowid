@@ -83,7 +83,7 @@ void snow_shutdown(void);
  * @param dest - set to snowid as snow_id_t struct
  * @return true if success, else false.
 */
-bool get_snowid_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest);
+bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin, snow_id_t *dest);
 
 
 #endif /* __SNOWID_H__ */
