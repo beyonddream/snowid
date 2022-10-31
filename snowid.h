@@ -34,6 +34,7 @@ typedef struct snow_config {
     uint64_t allowable_downtime; /* time since snowid is called last - default 0 */
 } snow_config_t;
 
+/* public type that represents a snowid at any given time */
 struct snow_id {
     uint64_t timestamp;
     uint64_t worker_id;

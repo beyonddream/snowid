@@ -32,6 +32,7 @@
 #include "snowid_util.h"
 #include "snowid_checkpoint.h"
 
+/* private internal snowid state representation */
 typedef struct snow_state {
     /* Id will be generated only if true */
     bool enabled;
