@@ -19,7 +19,7 @@ infrastructure and it will generate conflict-free id's on-demand without coordin
 
 #### Config
 
-A simple text based config file with below fields:
+`struct snow_config` takes below fields:
 
 * `interface` - Set to available network interface to pull a 48-bit mac address as worker id.
 * `timestamp_path` - To periodically save the current time. When snow_init() is called and if it detects
@@ -32,6 +32,52 @@ Example:
 interface="en0"
 timestamp_path="/data/snowid/timestamp.out"
 allowable_downtime=1665373570
+```
+
+#### Benchmark
+
+Timing benchmark below on how long it takes to generate 100,000 unique ids:
+
+```
+....
+
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:36
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:37
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:38
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:39
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3a
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3b
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3c
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3d
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3e
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:3f
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:40
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:41
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:42
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:43
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:44
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:45
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:46
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:47
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:48
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:49
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4a
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4b
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4c
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4d
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4e
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:4f
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:50
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:51
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:52
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:53
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:54
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:55
+0:0:0:0:63:60:1e:f6:ae:ff:fe:84:f9:ba:16:56
+
+real	0m0.494s
+user	0m0.255s
+sys	0m0.062s
 ```
 
 ## Credits
