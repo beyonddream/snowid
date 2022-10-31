@@ -46,7 +46,8 @@ static void snow_checkpoint_periodic(char *timestamp_path)
     uint64_t checkpoint;
 
     for(;;) {
-        /* check if child is reparented to init(1), if so then exit.*/
+        /* check if child is reparented to init(1), if so then exit. */
+        /* XXX - may not guarenteed to work if reparent is not pid == 1 */
         if (getppid() == 1) {
             _exit(0);
         }
@@ -59,9 +60,10 @@ static void snow_checkpoint_periodic(char *timestamp_path)
 
         lseek(fd, 0, SEEK_SET);
         /* XXX - ignore write() errors - it may recover during next try (: */
-        write(fd, buf, 1);
-        /* XXX - ignore fsync() errors - it may recover during next try (: */
-        fsync(fd);
+        if (write(fd, buf, 1) != -1) {
+            /* XXX - ignore fsync() errors - it may recover during next try (: */
+            fsync(fd);
+        }
 
         sleep(CHECKPOINT_PERIOD_SECS);
     }
