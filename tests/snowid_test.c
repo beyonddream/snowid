@@ -131,9 +131,9 @@ bool test_snow_get_id_as_binary_multiple()
     while (first < NO_OF_IDS && second < NO_OF_IDS) {
         snow_id_t f = arr_out[first];
         snow_id_t s = arr_out[second];
-        /* verify k-ordering */
+        /* verify ordering */
         if ((f.timestamp > s.timestamp) 
-            || (f.worker_id > s.worker_id)
+            || (f.worker_id != s.worker_id)
             || (f.sequence_id > s.sequence_id)) {
             expected = false;
             goto fail;
