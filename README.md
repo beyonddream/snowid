@@ -36,6 +36,11 @@ allowable_downtime=1665373570
 
 ## Build/Test/Benchmark
 
+### Dependencies
+
+* C99 compatible C compiler (e.g. GCC or Clang).
+* This library doesn't depend on any external libraries.
+
 #### Build and Run
 
 ```
@@ -56,7 +61,7 @@ This should run a series of unit tests to verify the basic functionality of the 
 
 #### Benchmark
 
-Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (not this may vary on your machine type):
+Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (not this may vary based on your machine):
 
 ```
 $ time make bench
@@ -68,5 +73,6 @@ sys	0m0.062s
 
 ## Credits
 
-The idea/design is borrowed from BMC's (formerly Boundary) flake server written in Erlang.
+* The idea/design is borrowed from BMC's (formerly Boundary) flake server written in Erlang.
 More details are in the original [post](http://archive.is/2015.07.08-082503/http://www.boundary.com/blog/2012/01/flake-a-decentralized-k-ordered-unique-id-generator-in-erlang/).
+* Twitter snowflake id generator.
