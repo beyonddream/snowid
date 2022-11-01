@@ -98,7 +98,7 @@ bool test_snow_get_id_as_binary_for_unknown_interface()
     return expected;
 }
 
-bool test_snow_get_id_as_binary_multiple() 
+bool test_snow_get_id_multiple() 
 {
     snow_config_t config = {
         .interface = "eno",
@@ -142,6 +142,63 @@ bool test_snow_get_id_as_binary_multiple()
         ++first;
         ++second;
     }
+#undef NO_OF_IDS
+
+fail:
+    
+    TEST_POST_SETUP();
+    
+    return expected;
+}
+
+bool test_snow_get_id_and_verify_unique_timestamp() 
+{
+    snow_config_t config = {
+        .interface = "eno",
+        .timestamp_path = "./timestamp.out",
+        .allowable_downtime = 2592000000,
+    };
+
+    TEST_PRE_SETUP(config);
+
+#define NO_OF_IDS 2
+
+    snow_id_t arr_out[NO_OF_IDS] = {{0}, {0}};
+    snow_id_t out;
+    bool expected;
+    for (int8_t i = 0; i < NO_OF_IDS; i++) {
+         /* not ideal in a unit test but exception here to verify behavior */
+         /* we should also sleep just before every call to snow_get_id() */
+        sleep(1);
+        expected = snow_get_id(&out);
+        if (expected == false) {
+            goto fail;
+        }
+        arr_out[i] = (snow_id_t) {
+            .timestamp = out.timestamp,
+            .worker_id = out.worker_id,
+            .sequence_id = out.sequence_id
+        };
+    }
+
+    int8_t first, second;
+    first = 0;
+    second = 1;
+    while (first < NO_OF_IDS && second < NO_OF_IDS) {
+        snow_id_t f = arr_out[first];
+        snow_id_t s = arr_out[second];
+        /* verify ordering */
+        if ((f.timestamp >= s.timestamp) 
+            || (f.worker_id != s.worker_id)
+            || (f.sequence_id != s.sequence_id)) {
+            expected = false;
+            goto fail;
+        } 
+
+        ++first;
+        ++second;
+    }
+#undef NO_OF_IDS
 
 fail:
     
@@ -152,14 +209,17 @@ fail:
 
 int main(void) 
 {
+
     TEST_CHECK_RESULT("test_snow_get_id", test_snow_get_id());
     TEST_CHECK_RESULT("test_snow_get_id_as_binary", test_snow_get_id_as_binary());
     TEST_CHECK_RESULT("test_snow_get_id_for_garbage_interface",
      test_snow_get_id_for_unknown_interface());
     TEST_CHECK_RESULT("test_snow_get_id_as_binary_for_garbage_interface",
      test_snow_get_id_as_binary_for_unknown_interface());
-    TEST_CHECK_RESULT("test_snow_get_id_as_binary_multiple",
-     test_snow_get_id_as_binary_multiple());
+    TEST_CHECK_RESULT("test_snow_get_id_multiple",
+     test_snow_get_id_multiple());
+    TEST_CHECK_RESULT("test_snow_get_id_and_verify_unique_timestamp",
+     test_snow_get_id_and_verify_unique_timestamp());
 
     return EXIT_SUCCESS;
 }
