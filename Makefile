@@ -8,8 +8,8 @@ all: snowid
 test: unit
 	./unit
 
-benchmark: bench
-	./bench
+bench: benchmark
+	./benchmark
 
 unit: snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o 
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o
@@ -32,13 +32,13 @@ snowid_checkpoint.o: snowid_checkpoint.c snowid_checkpoint.h
 main.o: examples/main.c snowid.h
 	$(CC) $(CFLAGS) -c examples/main.c -o $@ -I$(PWD)
 
-bench: snowid.o snowid_util.o snowid_checkpoint.o bench.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o bench.o
+benchmark: snowid.o snowid_util.o snowid_checkpoint.o benchmark.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o benchmark.o
 
-bench.o: examples/bench.c snowid.h
-	$(CC) $(CFLAGS) -c examples/bench.c -o $@ -I$(PWD)
+benchmark.o: examples/benchmark.c snowid.h
+	$(CC) $(CFLAGS) -c examples/benchmark.c -o $@ -I$(PWD)
 
 clean:
-	rm -rf main.o snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o bench.o
-	rm -rf snowid bench unit timestamp.out 
+	rm -rf main.o snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o benchmark.o
+	rm -rf snowid benchmark unit timestamp.out 
 .PHONY: clean
