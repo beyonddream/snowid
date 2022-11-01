@@ -34,12 +34,32 @@ timestamp_path="/data/snowid/timestamp.out"
 allowable_downtime=1665373570
 ```
 
-#### Benchmark
+## Build/Test/Benchmark
 
-Timing benchmark below on how long it takes to generate 100,000 unique ids:
+#### Build and Run
 
 ```
-$ make bench
+$ make
+```
+This will create a binary by the name `snowid` which is an example driver program and run it like this:
+```
+$ ./snowid
+```
+and it should print a series of time ordered unique id's.
+
+#### Test
+
+```
+$ make test
+```
+This should run a series of unit tests to verify the basic functionality of the library.
+
+#### Benchmark
+
+Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (not this may vary on your machine type):
+
+```
+$ time make bench
 
 real	0m0.494s
 user	0m0.255s
