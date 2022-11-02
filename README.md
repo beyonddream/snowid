@@ -85,7 +85,21 @@ There is a Dockerfile which provides a way to build the code in GNU/Linux.
 
 ```
 1) docker build -t snowid -f Dockerfile .
-2) docker run -it snowid
+2) docker run -it --rm snowid
+```
+
+#### Docker test
+
+```
+1) docker build -t unit -f Dockerfile.test .
+2) docker run -it --rm unit
+```
+
+### Docker bench
+
+```
+1) docker build -t benchmark -f Dockerfile.bench .
+2) docker run -it --rm benchmark
 ```
 
 ## Credits

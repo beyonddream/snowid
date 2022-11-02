@@ -1,0 +1,10 @@
+FROM ubuntu as build-base
+RUN apt-get update && apt-get install build-essential -y
+
+WORKDIR /build
+COPY . .
+
+# compile the code
+RUN make bench
+
+CMD ["bash", "-c", "time /build/benchmark"]
