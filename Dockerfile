@@ -5,6 +5,6 @@ WORKDIR /build
 COPY . .
 
 # compile the code
-RUN make
+RUN make clean && make
 
 CMD ["/build/snowid"]

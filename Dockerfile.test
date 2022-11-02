@@ -5,6 +5,6 @@ WORKDIR /build
 COPY . .
 
 # compile the code
-RUN make test
+RUN make clean && make test
 
 CMD ["/build/unit"]
