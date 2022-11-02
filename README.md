@@ -34,12 +34,12 @@ timestamp_path="/data/snowid/timestamp.out"
 allowable_downtime=1665373570
 ```
 
-## Build/Test/Benchmark
-
-#### Dependencies
+## Dependencies
 
 * C99 compatible C compiler (e.g. GCC or Clang).
 * This library doesn't depend on any external libraries.
+
+## Build/Test/Benchmark
 
 #### Build and Run
 
