@@ -22,15 +22,8 @@ static inline bool bench()
             puts("unable to generate snowid as binary");
             return false;
         }
-
-        for (int8_t i = 0; i < 16; i++) {
-            printf("%x", out[i]);
-            if (i != 15) {
-                printf(":");
-            } else {
-                printf("\n");
-            }
-        }
+        /* print the last byte as hex just so the compiler doesn't optimize `out` away. */
+        printf("%x\n", out[15]);
     }
 
     snow_shutdown();

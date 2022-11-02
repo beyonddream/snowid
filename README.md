@@ -61,14 +61,20 @@ This should run a series of unit tests to verify the basic functionality of the 
 
 #### Benchmark
 
-Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (not this may vary based on your machine):
+Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (note this may vary based on your machine):
 
 ```
 $ time make bench
 
-real	0m0.494s
-user	0m0.255s
-sys	0m0.062s
+real    0m0.613s
+user    0m0.089s
+sys     0m0.066s
+```
+
+```
+$ python3 -m timeit -n 3 "__import__('os').system('make bench')"
+...
+3 loops, best of 5: 509 msec per loop
 ```
 
 #### Docker build
