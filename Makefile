@@ -29,14 +29,14 @@ snowid_util.o: snowid_util.c snowid_util.h
 snowid_checkpoint.o: snowid_checkpoint.c snowid_checkpoint.h
 	$(CC) $(CFLAGS) -c snowid_checkpoint.c -o $@
 
-main.o: examples/main.c snowid.h
-	$(CC) $(CFLAGS) -c examples/main.c -o $@ -I$(PWD)
+main.o: main.c snowid.h
+	$(CC) $(CFLAGS) -c main.c -o $@ -I$(PWD)
 
 benchmark: snowid.o snowid_util.o snowid_checkpoint.o benchmark.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ snowid.o snowid_util.o snowid_checkpoint.o benchmark.o
 
-benchmark.o: examples/benchmark.c snowid.h
-	$(CC) $(CFLAGS) -c examples/benchmark.c -o $@ -I$(PWD)
+benchmark.o: perf/benchmark.c snowid.h
+	$(CC) $(CFLAGS) -c perf/benchmark.c -o $@ -I$(PWD)
 
 clean:
 	rm -rf main.o snowid.o snowid_util.o snowid_checkpoint.o snowid_test.o benchmark.o

@@ -4,6 +4,7 @@
 
 #include "snowid.h"
 
+/* Driver code to show how snowid library can be used in a program */
 int main(void) 
 {
     puts("Test program for snowid...");
