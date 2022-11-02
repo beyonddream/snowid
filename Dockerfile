@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install build-essential -y
 WORKDIR /build
 COPY . .
 
-# compile the binaries
+# compile the code
 RUN make
 
 CMD ["/build/snowid"]
