@@ -26,6 +26,7 @@
 #define __SNOWID_UTIL_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /**
  * Retrive a binary representation of the H/W (MAC) address either from the interface name

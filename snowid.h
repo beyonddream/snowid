@@ -25,8 +25,9 @@
 #ifndef __SNOWID_H__
 #define __SNOWID_H__
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
 
 typedef struct snow_config {
     char *interface; /* network interface name */

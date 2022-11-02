@@ -71,6 +71,15 @@ user	0m0.255s
 sys	0m0.062s
 ```
 
+#### Docker build
+
+There is a Dockerfile which provides a way to build the code in GNU/Linux.
+
+```
+1) docker build -t snowid -f Dockerfile .
+2) docker run -it snowid
+```
+
 ## Credits
 
 * The idea/design is borrowed from BMC's (formerly Boundary) flake server written in Erlang.

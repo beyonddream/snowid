@@ -30,16 +30,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <sys/socket.h>
-#include <sys/time.h>
 #include <sys/types.h>
 
 #include "snowid_util.h"
 
-#if defined(linux)
+#ifdef __linux__
     #include <linux/if_link.h>
+    #include <linux/if_packet.h>
     #define IF_HW_FAMILY AF_PACKET
-#else 
+#else
     #include <net/if_dl.h>
     #define IF_HW_FAMILY AF_LINK   /* MacOS/BSD */
 #endif
@@ -72,10 +73,10 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
             continue;
         }
 
-        #if defined(linux)
+        #ifdef __linux__
             struct sockaddr_ll *sock_addr = (struct sockaddr_ll*)ifa->ifa_addr;
             for (int8_t i = 5; i >=0; --i) {
-                *workerid |= (uint64_t)*sock_addr->sll_addr++ << (CHAR_BIT * i);
+                *workerid |= (uint64_t)sock_addr->sll_addr[i] << (CHAR_BIT * i);
             }
         #else
             struct sockaddr_dl *sock_addr = (struct sockaddr_dl*)ifa->ifa_addr;
