@@ -71,6 +71,8 @@ user    0m0.089s
 sys     0m0.066s
 ```
 
+If you have python3 in your system, then u can run it like below:
+
 ```
 $ python3 -m timeit -n 3 "__import__('os').system('make bench')"
 ...
