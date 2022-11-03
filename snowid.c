@@ -27,6 +27,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h> 
+#include <inttypes.h>
 
 #include "snowid.h"
 #include "snowid_util.h"
@@ -229,18 +230,18 @@ void snow_dump(FILE *stream)
         stream = stdout;
     }
 
-#define FPRINTF(KEY, VALUE)                  \
+#define LOG(KEY, VALUE)                  \
         do {                                 \
             fprintf(stream, (KEY), (VALUE)); \
         } while(0)
         
-    FPRINTF("%s", "\n{");
-    FPRINTF("\"enabled\":%d,", state->enabled);
-    FPRINTF("\"worker_id\":%llu,", state->worker_id);
-    FPRINTF("\"checkpoint\":%llu,", state->checkpoint);
-    FPRINTF("\"sequence_id\":%hu", state->sequence_id);
-    FPRINTF("%s", "}\n");
-#undef FPRINTF
+    LOG("%s", "\n{");
+    LOG("\"enabled\":%d,", state->enabled);
+    LOG("\"worker_id\":%" PRIu64 ",", state->worker_id);
+    LOG("\"checkpoint\":%" PRIu64 ",", state->checkpoint);
+    LOG("\"sequence_id\":%hu", state->sequence_id);
+    LOG("%s", "}\n");
+#undef LOG
 
     return;
 }

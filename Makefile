@@ -1,6 +1,6 @@
 .POSIX:
 CC = cc
-CFLAGS = -std=c99 -Wall -Wextra -Os
+CFLAGS = -std=c99 -Wall -Werror -Wextra -Os
 LDFLAGS = -g
 
 all: snowid
