@@ -58,7 +58,11 @@ static void snow_checkpoint_periodic(char *timestamp_path)
 
         buf[0] = checkpoint;
 
-        lseek(fd, 0, SEEK_SET);
+        /* XXX - ignore lseek() errors - it may recover during next try (: */
+        if (lseek(fd, 0, SEEK_SET) == -1) {
+            continue;
+        }
+
         /* XXX - ignore write() errors - it may recover during next try (: */
         if (write(fd, buf, 1) != -1) {
             /* XXX - ignore fsync() errors - it may recover during next try (: */
