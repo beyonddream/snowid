@@ -64,7 +64,7 @@ The third function to convert A) from B).
 bool snow_id_convert(snow_id_binary_t snowid_as_bin, const snow_id_t *snowid);
 ```
 
-For full usage of reset of the public API's (`snowid.h`), checkout `main.c` that provides a driver program on how to use the library from an application (e.g. a (web)service).
+For full usage of rest of the public API's (`snowid.h`), checkout `main.c` that provides a driver program on how to use the library from an application (e.g. a (web)service).
 
 ## Dependencies
 
