@@ -1,7 +1,13 @@
 .POSIX:
 CC = cc
-CFLAGS = -std=c99 -Wall -Werror -Wextra -Os
-LDFLAGS = -g
+ifdef DEBUGBUILD
+	CFLAGS = -std=c99 -Wall -Werror -Wextra -fsanitize=address,undefined
+	LDFLAGS = -g3
+else
+	CFLAGS = -std=c99 -Wall -Werror -Wextra -Os
+	LDFLAGS = -g
+endif
+
 
 all: snowid
 

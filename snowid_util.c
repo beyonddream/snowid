@@ -53,7 +53,7 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 
     if (getifaddrs(&ifaddr) == -1) {
         perror("get_all_hw_ifs():Call to getifaddrs failed");
-        return NULL;
+        goto fail;
     }
 
     for (struct ifaddrs *ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
@@ -93,6 +93,9 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
         }
     }
 
+    freeifaddrs(ifaddr);
+    
+fail:
     return found;
 }
 
