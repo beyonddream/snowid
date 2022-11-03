@@ -36,16 +36,16 @@ allowable_downtime=1665373570
 
 ## API/Usage
 
-Two main functions are provided:
+Two main functions to generate id are provided:
 
-1)
+A)
 ```c
 /**
 * Attempts to set `dest_as_binary` with a 128-bit id (represented as byte array). * Return true if operation succeeds. 
 */
 bool snow_get_id_as_binary(snow_id_binary_t dest_as_binary);
 ```
-2)
+B)
 ```c
 /**
 * Attempts to set `dest` with a `struct snow_id` that consists of individual 
@@ -54,7 +54,7 @@ bool snow_get_id_as_binary(snow_id_binary_t dest_as_binary);
 bool snow_get_id(snow_id_t *dest);
 ```
 
-3)
+The third function to convert A) from B).
 ```c
 /**
 * Convenience function that attempts to convert `snowid` of type `struct 
