@@ -40,35 +40,37 @@ Two main functions to generate id are provided:
 
 A)
 ```c
-/**
-* Attempts to set `dest_as_binary` with a 128-bit id (represented as byte array). * Return true if operation succeeds. 
+/*
+* Attempts to set `dest_as_binary` with a 128-bit id (represented as byte 
+* array). Return true if operation succeeds. 
 */
-bool snow_get_id_as_binary(snow_id_binary_t dest_as_binary);
+bool snow_get_id_as_binary(snow_id_binary_t snowid_as_bin);
 ```
 B)
 ```c
-/**
+/*
 * Attempts to set `dest` with a `struct snow_id` that consists of individual 
 * components of the id. Return true if operation succeeds.
 */
-bool snow_get_id(snow_id_t *dest);
+bool snow_get_id(snow_id_t *snowid);
 ```
 
 The third function to convert A) from B).
 ```c
-/**
+/*
 * Convenience function that attempts to convert `snowid` of type `struct 
 * snow_id` into binary `dest_as_bin`. Return true if operation succeeds.
 */
-bool snow_id_convert(snow_id_binary_t dest_as_bin, const snow_id_t *snowid);
+bool snow_id_convert(snow_id_binary_t snowid_as_bin, const snow_id_t *snowid);
 ```
 
 For full usage of reset of the public API's (`snowid.h`), checkout `main.c` that provides a driver program on how to use the library from an application (e.g. a (web)service).
 
 ## Dependencies
 
+* Tested on macOS and GNU/Linux (via Docker). PR welcome to make it work on Windows.
 * C99 compatible C compiler (e.g. GCC or Clang).
-* This library doesn't depend on any external libraries.
+* This library doesn't depend on any external libraries.  
 
 ## Build/Test/Benchmark
 

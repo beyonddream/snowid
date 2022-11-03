@@ -51,10 +51,10 @@ typedef unsigned char snow_id_binary_t[16];
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
- * @arg dest - If able to generate an id, set the value of id to `snow_id`.
+ * @arg snowid - If able to generate an id, set the value of id to `snow_id`.
  * @return true if successfully able to generate an id, false if not.
  */
-bool snow_get_id(snow_id_t *dest);
+bool snow_get_id(snow_id_t *snowid);
 
 /**
  * Dump snow state and config to stdout for debugging.
@@ -85,17 +85,17 @@ void snow_shutdown(void);
  * Represented as:
  * <unix timestamp (64 bits) + MAC address (48 bits) + sequence number (16 bits)>
  * 
- * @param dest_as_bin - set to snowid converted to 128 bits
+ * @param snowid_as_bin - set to snowid as binary
  * @return true if success, else false.
 */
-bool snow_get_id_as_binary(snow_id_binary_t dest_as_bin);
+bool snow_get_id_as_binary(snow_id_binary_t snowid_as_bin);
 
 /**
- * Convert an already generated snow_id as binary - contiguous array of 128 bits. 
+ * Convert an already generated snow_id as binary (represented as byte array). 
  * 
- * @param out - set the converted snowid as binary
+ * @param snowid_as_bin - set the converted snowid as binary
  * @param snowid - pass in already generated snowid
 */
-bool snow_id_convert(snow_id_binary_t out, const snow_id_t *snowid);
+bool snow_id_convert(snow_id_binary_t snowid_as_bin, const snow_id_t *snowid);
 
 #endif /* __SNOWID_H__ */
