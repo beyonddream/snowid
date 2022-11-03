@@ -59,6 +59,12 @@ $ make test
 ```
 This should run a series of unit tests to verify the basic functionality of the library.
 
+Debug mode build and test can be enabled like below:
+
+```
+$ DEBUGBUILD=true make test
+```
+
 #### Benchmark
 
 Timing benchmark below on how long it takes to generate 100,000 unique ids on my MacBook 2.2 GHz 6-Core Intel Core i7 (note this may vary based on your machine):
