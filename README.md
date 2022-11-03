@@ -3,7 +3,7 @@
 A Decentralized, K-Ordered Unique ID Generator library in C.
 
 It generates 128-bit k-ordered id's (time-ordered lexically). It can be run on each node in your
-infrastructure and it will generate conflict-free id's on-demand without coordination.
+infrastructure and it will generate conflict-free id's on-demand without coordination. Here, k-ordered means that id's generated within a given millisecond will be within a millisecond of one another in the id space as well.
 
 ## Design
 
@@ -110,6 +110,13 @@ There is a Dockerfile which provides a way to build the code in GNU/Linux.
 
 ## Credits
 
-* The idea/design is borrowed from BMC's (formerly Boundary) flake server written in Erlang.
+* General inspiration is from Twitter snowflake [id generator](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake).
+
+* The idea/design of `snowid` is borrowed from BMC's (formerly Boundary) flake server written in Erlang.
 More details are in the original [post](http://archive.is/2015.07.08-082503/http://www.boundary.com/blog/2012/01/flake-a-decentralized-k-ordered-unique-id-generator-in-erlang/).
-* Twitter snowflake id generator.
+
+
+## License
+
+MIT License
+Copyright (c) 2022 beyonddream
