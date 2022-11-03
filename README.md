@@ -34,6 +34,37 @@ timestamp_path="/data/snowid/timestamp.out"
 allowable_downtime=1665373570
 ```
 
+## API/Usage
+
+Two main functions are provided:
+
+1)
+```c
+/**
+* Attempts to set `dest_as_binary` with a 128-bit id (represented as byte array). * Return true if operation succeeds. 
+*/
+bool snow_get_id_as_binary(snow_id_binary_t dest_as_binary);
+```
+2)
+```c
+/**
+* Attempts to set `dest` with a `struct snow_id` that consists of individual 
+* components of the id. Return true if operation succeeds.
+*/
+bool snow_get_id(snow_id_t *dest);
+```
+
+3)
+```c
+/**
+* Convenience function that attempts to convert `snowid` of type `struct 
+* snow_id` into binary `dest_as_bin`. Return true if operation succeeds.
+*/
+bool snow_id_convert(snow_id_binary_t dest_as_bin, const snow_id_t *snowid);
+```
+
+For full usage of reset of the public API's (`snowid.h`), checkout `main.c` that provides a driver program on how to use the library from an application (e.g. a (web)service).
+
 ## Dependencies
 
 * C99 compatible C compiler (e.g. GCC or Clang).
