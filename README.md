@@ -17,6 +17,34 @@ infrastructure and it will generate conflict-free id's on-demand without coordin
 * `worker_id` - pulled from a network interface a 48-bit MAC address
 * `seq` - incremented each time id is requested in the same millisecond. This means each server can produce 2^16 - 1 unique id's per millisecond without overflow.
 
+Example:
+
+```sh
+# hexadecimal representation of 128-bit id's in dot notation
+....
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:0
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:1
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:2
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:3
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:4
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:5
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:6
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:7
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:8
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:9
+0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:a
+....
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:0
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:1
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:2
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:3
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:4
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:5
+0:0:1:84:40:9b:ff:a8:2:0:12:ac:42:3:0:6
+....
+```
+**NOTE**: Since these id's are predictable, **do not** use them where predictability is **not** a desirable property like in passwords, security tokens or anything that can be easily guessed or brute-forced. Since it also exposes the identity of the machine that generated the id (via MAC address) it could be a problem for security sensitive applications.
+
 #### Config
 
 `struct snow_config` takes below fields:
