@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 
@@ -101,19 +101,17 @@ fail:
 
 bool get_current_ts(uint64_t *result)
 {
-    time_t t;
+    struct timeval now;
 
     if (result == NULL) {
         return false;
     }
 
-    t = time(NULL);
-
-    if (t == (time_t)-1) {
+    if (gettimeofday(&now, NULL) == -1) {
         return false;
     }
 
-    *result = (uint64_t)t;
+    *result = (uint64_t)((now.tv_sec * 1000) + (now.tv_usec / 1000));
 
     return true;
 }
