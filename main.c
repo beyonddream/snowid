@@ -19,15 +19,21 @@ int main(void)
 
     snow_dump(NULL);
 
-    snow_id_t snow_id;
+    #if 0
+        snow_id_t snow_id;
+    #endif
     unsigned char out[16] = {0};
 
     for(int i = 1; i <= 1000; i++) {
-        if (snow_get_id(&snow_id) == false) {
-            puts("unable to generate snowid");
-            break;
-        }
-
+        #if 0
+            /* alternate way of getting a unique id but you can access
+               individual members of the struct.
+             */ 
+            if (snow_get_id(&snow_id) == false) {
+                puts("unable to generate snowid");
+                break;
+            }
+        #endif
         if (snow_get_id_as_binary(out) == false) {
             puts("unable to generate snowid as binary");
             break;
