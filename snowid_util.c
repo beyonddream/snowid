@@ -63,12 +63,12 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 
         family = ifa->ifa_addr->sa_family;
         
-        /* skip if socket doesn't support IPv6 */
+        /* skip if family is not link layer type */
         if (family != IF_HW_FAMILY) {
             continue;
         }
 
-        /* skip loopback */
+        /* skip loopback - anything starting with lo */
         if ((ifa->ifa_name == NULL) || strncmp(ifa->ifa_name, "lo", 2) == 0) {
             continue;
         }
@@ -88,7 +88,7 @@ bool get_hw_addr_as_binary(uint64_t *workerid, char *interface)
 
         found = true;
         
-        if (interface != NULL && strncmp(ifa->ifa_name, interface, strlen(interface)) == 0) {
+        if (interface != NULL && strncmp(ifa->ifa_name, interface, strlen(interface) + 1) == 0) {
             break;
         }
     }
