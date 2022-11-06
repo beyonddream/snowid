@@ -1,0 +1,18 @@
+name: Makefile CI (MacOS)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  macos-build:
+
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use make build and test
+      run: |
+        make clean &&
+        DEBUGBUILD=true make test
