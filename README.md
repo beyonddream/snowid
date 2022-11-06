@@ -1,3 +1,6 @@
+![Ubuntu Latest CI](https://github.com/beyonddream/snowid/workflows/Makefile%20CI/badge.svg)
+![Macos Latest CI](https://github.com/beyonddream/snowid/workflows/Makefile%20CI%20(MacOS)/badge.svg)
+
 # snowid
 
 A Decentralized, K-Ordered Unique ID Generator library in C.
