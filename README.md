@@ -24,7 +24,8 @@ infrastructure and it will generate conflict-free id's on-demand without coordin
 Example:
 
 ```sh
-# hexadecimal representation of 128-bit id's in dot notation
+# hexadecimal representation of 128-bit id's in colon notation
+# e.g. 0:0:1:84:40:9b:ff:a5 = 8 byte unix timestamp, 2:0:12:ac:42:3 = 6 byte MAC address, 0:0 = 2 byte sequence number
 ....
 0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:0
 0:0:1:84:40:9b:ff:a5:2:0:12:ac:42:3:0:1
