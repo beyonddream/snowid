@@ -1,5 +1,5 @@
 .POSIX:
-CC = cc
+CC ?= cc
 ifdef DEBUGBUILD
 	CFLAGS = -std=c99 -Wall -Werror -Wextra -fsanitize=address,undefined
 	LDFLAGS = -g3
