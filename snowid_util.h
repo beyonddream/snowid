@@ -35,13 +35,15 @@
  * 
  * @param workerid Binary representation of the mac address of the interface.
  * @param interface Interface name to pull the address from.
- * @return success if we could set a workerid, else failure.
+ * @return bool - true if we could return hw address, else false.
  */
 bool get_hw_addr_as_binary(uint64_t *workerid, char *interface);
 
 /**
+ * Get current timestamp
+ * 
  * @param result - set the current timestamp to the value pointed by result.
- * @return true if success else false.
+ * @return bool - true if we can get current timestamp, else false.
 */
 bool get_current_ts(uint64_t *result);
 

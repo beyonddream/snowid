@@ -27,6 +27,13 @@
 
 #include <stdbool.h>
 
+/**
+ * Start a child process to periodically save current time in `timestamp_path`
+ * location.
+ * 
+ * @param timestamp_path - filepath to store timestamp
+ * @return bool - true if success, else false.
+*/
 bool snow_checkpoint_start(char *timestamp_path);
 
 #endif /* __SNOWID_CHECKPOINT_H__ */
