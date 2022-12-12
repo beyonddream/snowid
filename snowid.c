@@ -308,6 +308,7 @@ void snow_shutdown(void)
 {
 
     free(state);
+    state = NULL;
 
     return;
 }

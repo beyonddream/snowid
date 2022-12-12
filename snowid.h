@@ -51,6 +51,7 @@ typedef unsigned char snow_id_binary_t[16];
  * sequence_id is incremented as many times as the function is called within the
  * same timestamp.
  * 
+ * @warning Not multi-thread safe
  * @param snowid - If able to generate an id, set the value of id to `snow_id`.
  * @return bool - true if successfully able to generate an id, false if not.
  */
@@ -59,6 +60,7 @@ bool snow_get_id(snow_id_t *snowid);
 /**
  * Dump snow state and config to stdout for debugging.
  * 
+ * @warning Not multi-thread safe
  * @param stream - any file descriptor (stdout if NULL)
  * @return void
  */ 
@@ -68,6 +70,7 @@ void snow_dump(FILE *stream);
  * Initializes the snowid engine with the config. It has to be called only once before
  * calling any other API functions.
  * 
+ * @warning Not multi-thread safe
  * @param config - The snowid configuration
  * @return void
  */
@@ -77,6 +80,7 @@ void snow_init(snow_config_t *config);
  * Deinitializes the snowid engine. It has to be called only once at the end
  * and no other API functions should be called after it except snow_init().
  * 
+ * @warning Not multi-thread safe
  * @param void
  * @return void
  */
